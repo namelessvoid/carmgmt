@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"io"
 	"net/http"
 	"strconv"
 
@@ -10,9 +9,19 @@ import (
 	"github.com/namelessvoid/carmgmt/internal/pkg/domain"
 )
 
-// GetIndexHandler serves the index page
-func getIndexHandler(w http.ResponseWriter, r *http.Request) {
-	io.WriteString(w, "Welcome to the car management system!")
+func getAllCars(cs *domain.CarService) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		cars, err := cs.GetAllCars()
+
+		json, err := json.Marshal(cars)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(json)
+	}
 }
 
 func getCarByID(cs *domain.CarService) http.HandlerFunc {
@@ -41,7 +50,7 @@ func getCarByID(cs *domain.CarService) http.HandlerFunc {
 }
 
 func ConfigureRoutes(r *mux.Router, cs *domain.CarService) {
-	carRouter := r.PathPrefix("/car").Subrouter()
-	carRouter.HandleFunc("", getIndexHandler)
+	carRouter := r.PathPrefix("/cars").Subrouter()
+	carRouter.HandleFunc("", getAllCars(cs))
 	carRouter.HandleFunc("/{id}", getCarByID(cs))
 }

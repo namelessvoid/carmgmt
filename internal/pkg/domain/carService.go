@@ -22,6 +22,10 @@ func (*CarService) CreateCar(name string) Car {
 	return car
 }
 
+func (*CarService) GetAllCars() ([]Car, error) {
+	return cars, nil
+}
+
 func (*CarService) GetCarById(id int) (Car, error) {
 	if !doesCarExist(id) {
 		return Car{ID: -1}, fmt.Errorf("No car with id '%d'", id)
