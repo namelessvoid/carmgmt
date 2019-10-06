@@ -35,10 +35,9 @@ func main() {
 	fmt.Println(refuellings)
 
 	r := mux.NewRouter()
-	http.Handle("/", r)
 
 	api.ConfigureRoutes(r, carService)
 
 	log.Printf("Running server on %s\n", hostname)
-	log.Fatal(http.ListenAndServe(hostname, nil))
+	log.Fatal(http.ListenAndServe(hostname, api.CORSMiddleware()(r)))
 }
