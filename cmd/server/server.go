@@ -2,8 +2,43 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
+
+	"github.com/namelessvoid/carmgmt/internal/pkg/api"
+
+	"github.com/namelessvoid/carmgmt/internal/pkg/domain"
+
+	"github.com/gorilla/mux"
+)
+
+const (
+	hostname = ":8080"
 )
 
 func main() {
-	fmt.Println("foo")
+	carService := domain.NewCarService()
+	car := carService.CreateCar("fooo")
+	err := carService.AddRefuellingToCar(domain.Refuelling{CarID: car.ID})
+	if err != nil {
+		log.Println(err)
+	}
+	err = carService.AddRefuellingToCar(domain.Refuelling{CarID: car.ID})
+	if err != nil {
+		log.Println(err)
+	}
+	refuellings, err := carService.GetRefuellingsByCar(car.ID)
+	if err != nil {
+		log.Println(err)
+	}
+
+	fmt.Println(refuellings)
+
+	r := mux.NewRouter()
+	http.Handle("/", r)
+
+	api.ConfigureRoutes(r, carService)
+
+	log.Printf("Running server on %s\n", hostname)
+	log.Fatal(http.ListenAndServe(hostname, nil))
 }
