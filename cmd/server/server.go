@@ -18,7 +18,8 @@ const (
 
 func main() {
 	carService := domain.NewCarService()
-	car := carService.CreateCar("fooo")
+	car := carService.CreateCar("Foo Car")
+	_ = carService.CreateCar("Bar")
 	err := carService.AddRefuellingToCar(domain.Refuelling{CarID: car.ID})
 	if err != nil {
 		log.Println(err)
