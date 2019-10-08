@@ -2,7 +2,8 @@ package domain
 
 import (
 	"fmt"
-	"log"
+
+	"go.uber.org/zap"
 )
 
 type VehicleService interface {
@@ -11,20 +12,22 @@ type VehicleService interface {
 	GetVehicleById(id int) (Vehicle, error)
 }
 
-type vehicleService struct{}
+type vehicleService struct {
+	logger *zap.Logger
+}
 
 var vehicles []Vehicle
 var refuellings []Refuelling
 
-func NewVehicleService() *vehicleService {
-	return &vehicleService{}
+func NewVehicleService(l *zap.Logger) *vehicleService {
+	return &vehicleService{logger: l}
 }
 
-func (*vehicleService) CreateVehicle(name string) (Vehicle, error) {
+func (vs *vehicleService) CreateVehicle(name string) (Vehicle, error) {
 	id := len(vehicles)
 	vehicle := Vehicle{ID: id, Name: name}
 	vehicles = append(vehicles, vehicle)
-	log.Printf("Created vehicle. Number of vehicles: '%d", len(vehicles))
+	vs.logger.Info("Created vehicle.", zap.Int("vehicleCount", len(vehicles)))
 	return vehicle, nil
 }
 
@@ -40,13 +43,13 @@ func (*vehicleService) GetVehicleById(id int) (Vehicle, error) {
 	return vehicles[id], nil
 }
 
-func (*vehicleService) AddRefuellingToVehicle(r Refuelling) error {
+func (vs *vehicleService) AddRefuellingToVehicle(r Refuelling) error {
 	if !doesVehicleExist(r.VehicleID) {
 		return fmt.Errorf("No vehicle with id '%d'", r.VehicleID)
 	}
 
 	refuellings = append(refuellings, r)
-	log.Printf("Added refuelling to vehicle with id '%d'. Total number of refuelings: %d", r.VehicleID, len(refuellings))
+	vs.logger.Info("Added refuelling to vehicle.", zap.Int("vehicleId", r.VehicleID), zap.Int("totalRefulingsCount", len(refuellings)))
 
 	return nil
 }
