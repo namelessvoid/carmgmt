@@ -1,6 +1,6 @@
 <script>
 	import { Router, Route } from 'svelte-routing';
-	import CarList from './CarList.svelte';
+	import CarList from './fleet/CarList.svelte';
 
 	let url = "";
 	let loading = false;
