@@ -1,11 +1,11 @@
 # Car Management Tool
 
-Small application to manage fleet of cars.
+Small application to manage fleet of vehicles.
 
 Features planned at the moment:
 
-- Add cars to the fleet
-- Add refuellings to cards to track fuel consumption
+- Add vehicles to the fleet
+- Add refuellings to vehicleds to track fuel consumption
 
 ## Build and run
 

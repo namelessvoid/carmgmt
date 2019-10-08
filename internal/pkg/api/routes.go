@@ -10,11 +10,11 @@ import (
 	"github.com/namelessvoid/carmgmt/internal/pkg/domain"
 )
 
-func getAllCars(cs *domain.CarService) http.HandlerFunc {
+func getAllVehicles(cs *domain.VehicleService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		cars, err := cs.GetAllCars()
+		vehicles, err := cs.GetAllVehicles()
 
-		json, err := json.Marshal(cars)
+		json, err := json.Marshal(vehicles)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
@@ -25,9 +25,9 @@ func getAllCars(cs *domain.CarService) http.HandlerFunc {
 	}
 }
 
-func createVehicle(cs *domain.CarService) http.HandlerFunc {
+func createVehicle(cs *domain.VehicleService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var createVehicleCommand domain.Car
+		var createVehicleCommand domain.Vehicle
 		err := json.NewDecoder(r.Body).Decode(&createVehicleCommand)
 		if err != nil {
 			log.Print(err)
@@ -35,7 +35,7 @@ func createVehicle(cs *domain.CarService) http.HandlerFunc {
 			return
 		}
 
-		vehicle, err := cs.CreateCar(createVehicleCommand.Name)
+		vehicle, err := cs.CreateVehicle(createVehicleCommand.Name)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
@@ -52,7 +52,7 @@ func createVehicle(cs *domain.CarService) http.HandlerFunc {
 	}
 }
 
-func getCarByID(cs *domain.CarService) http.HandlerFunc {
+func getVehicleByID(cs *domain.VehicleService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		id, err := strconv.Atoi(vars["id"])
@@ -61,13 +61,13 @@ func getCarByID(cs *domain.CarService) http.HandlerFunc {
 			return
 		}
 
-		car, err := cs.GetCarById(id)
+		vehicle, err := cs.GetVehicleById(id)
 		if err != nil {
 			http.NotFound(w, r)
 			return
 		}
 
-		json, err := json.Marshal(car)
+		json, err := json.Marshal(vehicle)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
@@ -77,9 +77,9 @@ func getCarByID(cs *domain.CarService) http.HandlerFunc {
 	}
 }
 
-func ConfigureRoutes(r *mux.Router, cs *domain.CarService) {
-	carRouter := r.PathPrefix("/cars").Subrouter()
-	carRouter.HandleFunc("", getAllCars(cs)).Methods("GET")
-	carRouter.HandleFunc("", createVehicle(cs)).Methods("POST")
-	carRouter.HandleFunc("/{id}", getCarByID(cs)).Methods("GET")
+func ConfigureRoutes(r *mux.Router, cs *domain.VehicleService) {
+	vehicleRouter := r.PathPrefix("/vehicles").Subrouter()
+	vehicleRouter.HandleFunc("", getAllVehicles(cs)).Methods("GET")
+	vehicleRouter.HandleFunc("", createVehicle(cs)).Methods("POST")
+	vehicleRouter.HandleFunc("/{id}", getVehicleByID(cs)).Methods("GET")
 }

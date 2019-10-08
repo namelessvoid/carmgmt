@@ -1,6 +1,6 @@
 package domain
 
-type Car struct {
+type Vehicle struct {
 	ID   int
 	Name string
 }

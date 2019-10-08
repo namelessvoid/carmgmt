@@ -17,18 +17,18 @@ const (
 )
 
 func main() {
-	carService := domain.NewCarService()
-	car, _ := carService.CreateCar("Foo Car")
-	_, _ = carService.CreateCar("Bar")
-	err := carService.AddRefuellingToCar(domain.Refuelling{CarID: car.ID})
+	vehicleService := domain.NewVehicleService()
+	vehicle, _ := vehicleService.CreateVehicle("Foo Vehicle")
+	_, _ = vehicleService.CreateVehicle("Bar")
+	err := vehicleService.AddRefuellingToVehicle(domain.Refuelling{VehicleID: vehicle.ID})
 	if err != nil {
 		log.Println(err)
 	}
-	err = carService.AddRefuellingToCar(domain.Refuelling{CarID: car.ID})
+	err = vehicleService.AddRefuellingToVehicle(domain.Refuelling{VehicleID: vehicle.ID})
 	if err != nil {
 		log.Println(err)
 	}
-	refuellings, err := carService.GetRefuellingsByCar(car.ID)
+	refuellings, err := vehicleService.GetRefuellingsByVehicle(vehicle.ID)
 	if err != nil {
 		log.Println(err)
 	}
@@ -37,7 +37,7 @@ func main() {
 
 	r := mux.NewRouter()
 
-	api.ConfigureRoutes(r, carService)
+	api.ConfigureRoutes(r, vehicleService)
 
 	log.Printf("Running server on %s\n", hostname)
 	log.Fatal(http.ListenAndServe(hostname, api.CORSMiddleware()(r)))

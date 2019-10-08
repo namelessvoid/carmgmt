@@ -4,7 +4,7 @@ import "time"
 
 type Refuelling struct {
 	ID            int
-	CarID         int
+	VehicleID     int
 	Amount        float32
 	Price         float32
 	PricePerLiter float32

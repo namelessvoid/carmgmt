@@ -1,7 +1,7 @@
 const host = 'http://localhost:8080';
 
 export async function fetchAllVehicles() {
-    const response = await fetch(host + '/cars');
+    const response = await fetch(host + '/vehicles');
     const vehicles = await response.json();
     return vehicles;
 }
@@ -9,7 +9,7 @@ export async function fetchAllVehicles() {
 export async function addVehicle(vehicle) {
     let response;
     try {
-        response = await fetch(host + '/cars', {
+        response = await fetch(host + '/vehicles', {
             method: 'POST',
             body: JSON.stringify(vehicle)
         });
