@@ -1,9 +1,8 @@
 <script>
 	import { Router, Route } from 'svelte-routing';
-	import CarList from './fleet/CarList.svelte';
+	import Fleet from './fleet/Fleet.svelte';
 
 	let url = "";
-	let loading = false;
 </script>
 
 <style>
@@ -15,5 +14,5 @@
 <Router url={url}>
 	<h1>Hello foo!</h1>
 
-	<Route path="fleet" component={CarList} />
+	<Route path="fleet" component={Fleet} />
 </Router>
