@@ -5,16 +5,22 @@ import (
 	"log"
 )
 
-type VehicleService struct{}
+type VehicleService interface {
+	CreateVehicle(name string) (Vehicle, error)
+	GetAllVehicles() ([]Vehicle, error)
+	GetVehicleById(id int) (Vehicle, error)
+}
+
+type vehicleService struct{}
 
 var vehicles []Vehicle
 var refuellings []Refuelling
 
-func NewVehicleService() *VehicleService {
-	return &VehicleService{}
+func NewVehicleService() *vehicleService {
+	return &vehicleService{}
 }
 
-func (*VehicleService) CreateVehicle(name string) (Vehicle, error) {
+func (*vehicleService) CreateVehicle(name string) (Vehicle, error) {
 	id := len(vehicles)
 	vehicle := Vehicle{ID: id, Name: name}
 	vehicles = append(vehicles, vehicle)
@@ -22,11 +28,11 @@ func (*VehicleService) CreateVehicle(name string) (Vehicle, error) {
 	return vehicle, nil
 }
 
-func (*VehicleService) GetAllVehicles() ([]Vehicle, error) {
+func (*vehicleService) GetAllVehicles() ([]Vehicle, error) {
 	return vehicles, nil
 }
 
-func (*VehicleService) GetVehicleById(id int) (Vehicle, error) {
+func (*vehicleService) GetVehicleById(id int) (Vehicle, error) {
 	if !doesVehicleExist(id) {
 		return Vehicle{ID: -1}, fmt.Errorf("No vehicle with id '%d'", id)
 	}
@@ -34,7 +40,7 @@ func (*VehicleService) GetVehicleById(id int) (Vehicle, error) {
 	return vehicles[id], nil
 }
 
-func (*VehicleService) AddRefuellingToVehicle(r Refuelling) error {
+func (*vehicleService) AddRefuellingToVehicle(r Refuelling) error {
 	if !doesVehicleExist(r.VehicleID) {
 		return fmt.Errorf("No vehicle with id '%d'", r.VehicleID)
 	}
@@ -45,7 +51,7 @@ func (*VehicleService) AddRefuellingToVehicle(r Refuelling) error {
 	return nil
 }
 
-func (*VehicleService) GetRefuellingsByVehicle(vehicleID int) ([]Refuelling, error) {
+func (*vehicleService) GetRefuellingsByVehicle(vehicleID int) ([]Refuelling, error) {
 	if !doesVehicleExist(vehicleID) {
 		return nil, fmt.Errorf("No vehicle with id '%d'", vehicleID)
 	}
