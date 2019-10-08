@@ -1,0 +1,43 @@
+<script>
+    import { onMount } from 'svelte';
+    import { _ } from 'svelte-i18n';
+
+    import { fetchAllVehicles } from './api';
+
+    let vehicles = [];
+    let loading = false;
+
+    onMount(async () => {
+        loading = true;
+        vehicles = await fetchAllVehicles();
+        loading = false;
+    });
+</script>
+
+<style>
+table {
+    width: 100%;
+}
+
+th {
+    text-align: left;
+}
+</style>
+
+{#if loading}
+    <p>{$_('loading')}</p>
+{:else}
+    <table>
+        <tr>
+            <th>{$_('fleet.vehicle.id')}</th>
+            <th>{$_('fleet.vehicle.name')}</th>
+        </tr>
+        {#each vehicles as vehicle}
+        <tr>
+            <td>{vehicle.ID}</td>
+            <td>{vehicle.Name}</td>
+        </tr>
+        {/each}
+    </table>
+{/if}
+

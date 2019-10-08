@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -16,6 +17,33 @@ func getAllCars(cs *domain.CarService) http.HandlerFunc {
 		json, err := json.Marshal(cars)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(json)
+	}
+}
+
+func createVehicle(cs *domain.CarService) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		var createVehicleCommand domain.Car
+		err := json.NewDecoder(r.Body).Decode(&createVehicleCommand)
+		if err != nil {
+			log.Print(err)
+			http.Error(w, "[\"error.invalidJson\"]", http.StatusBadRequest)
+			return
+		}
+
+		vehicle, err := cs.CreateCar(createVehicleCommand.Name)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		json, err := json.Marshal(vehicle)
+		if err != nil {
+			http.Error(w, "["+err.Error()+"]", http.StatusInternalServerError)
 			return
 		}
 
@@ -51,6 +79,7 @@ func getCarByID(cs *domain.CarService) http.HandlerFunc {
 
 func ConfigureRoutes(r *mux.Router, cs *domain.CarService) {
 	carRouter := r.PathPrefix("/cars").Subrouter()
-	carRouter.HandleFunc("", getAllCars(cs))
-	carRouter.HandleFunc("/{id}", getCarByID(cs))
+	carRouter.HandleFunc("", getAllCars(cs)).Methods("GET")
+	carRouter.HandleFunc("", createVehicle(cs)).Methods("POST")
+	carRouter.HandleFunc("/{id}", getCarByID(cs)).Methods("GET")
 }

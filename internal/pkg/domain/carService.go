@@ -14,12 +14,12 @@ func NewCarService() *CarService {
 	return &CarService{}
 }
 
-func (*CarService) CreateCar(name string) Car {
+func (*CarService) CreateCar(name string) (Car, error) {
 	id := len(cars)
 	car := Car{ID: id, Name: name}
 	cars = append(cars, car)
 	log.Printf("Created car. Number of cars: '%d", len(cars))
-	return car
+	return car, nil
 }
 
 func (*CarService) GetAllCars() ([]Car, error) {

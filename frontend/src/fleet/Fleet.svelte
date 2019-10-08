@@ -1,8 +1,10 @@
 <script>
     import { _ } from 'svelte-i18n';
 
-    import CarList from './CarList.svelte';
+    import VehicleList from './VehicleList.svelte';
+    import AddVehicle from './AddVehicle.svelte';
 </script>
 
 <h2>{$_('fleet.overview')}</h2>
-<CarList />
+<VehicleList />
+<AddVehicle />

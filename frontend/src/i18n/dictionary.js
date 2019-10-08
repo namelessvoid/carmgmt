@@ -4,21 +4,33 @@ dictionary.set({
     'de-DE': {
         'fleet': {
             'overview': 'Flottenübersicht',
-            'car' : {
+            'vehicle' : {
                 'id': '#',
-                'name': 'Name'
-            }
+                'name': 'Name',
+            },
+            'addVehicle': 'Fahrzeug hinzufügen'
         },
-        'loading': 'Lädt...'
+        'loading': 'Lädt...',
+        'error': {
+            'networkFailure': 'Sie sind gerade offline oder der Server ist gerade nicht erreichbar.',
+            'unknown': 'Es ist ein Fehler aufgetreten.',
+            'invalidJson': 'Es ist ein Fehler aufgetreten (ungültiges json).'
+        }
     },
     'en': {
         'fleet': {
             'overview': 'Fleet overview',
-            'car': {
+            'vehicle': {
                 'id': '#',
                 'name': 'Name'
-            }
+            },
+            'addVehicle': 'Add vehicle'
         },
-        'loading': 'Loading...'
+        'loading': 'Loading...',
+        'error': {
+            'networkFailure': 'You are offline or server is not reachable at the moment.',
+            'unknown': 'An error occured.',
+            'invalidJson': 'An error occured (invalid json).'
+        }
     }
 })
