@@ -34,8 +34,8 @@ th {
         </tr>
         {#each vehicles as vehicle}
         <tr>
-            <td>{vehicle.ID}</td>
-            <td>{vehicle.Name}</td>
+            <td>{vehicle.id}</td>
+            <td>{vehicle.name}</td>
         </tr>
         {/each}
     </table>

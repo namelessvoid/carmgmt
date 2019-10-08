@@ -28,8 +28,8 @@ label {
 </style>
 
 <form on:submit|preventDefault={handleSubmit}>
-    <label for="Name">{$_('fleet.vehicle.name')}:</label>
-    <input name="Name" type="text" placeholder={$_('fleet.vehicle.name')} />
+    <label for="name">{$_('fleet.vehicle.name')}:</label>
+    <input name="name" type="text" placeholder={$_('fleet.vehicle.name')} />
     <input type="submit" value={$_('fleet.addVehicle')} />
 </form>
 
