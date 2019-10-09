@@ -20,7 +20,12 @@ var vehicles []Vehicle
 var refuellings []Refuelling
 
 func NewVehicleService(l *zap.Logger) *vehicleService {
-	return &vehicleService{logger: l}
+	logger := l
+	if logger == nil {
+		logger = zap.NewNop()
+	}
+
+	return &vehicleService{logger: logger}
 }
 
 func (vs *vehicleService) CreateVehicle(name string) (Vehicle, error) {
