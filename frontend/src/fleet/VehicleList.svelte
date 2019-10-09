@@ -2,14 +2,14 @@
     import { onMount } from 'svelte';
     import { _ } from 'svelte-i18n';
 
-    import { fetchAllVehicles } from './api';
+    import { getAllVehicles } from './api';
 
     let vehicles = [];
     let loading = false;
 
     onMount(async () => {
         loading = true;
-        vehicles = await fetchAllVehicles();
+        vehicles = await getAllVehicles();
         loading = false;
     });
 </script>

@@ -14,7 +14,7 @@ dictionary.set({
         'error': {
             'networkFailure': 'Sie sind gerade offline oder der Server ist gerade nicht erreichbar.',
             'unknown': 'Es ist ein Fehler aufgetreten.',
-            'invalidJson': 'Es ist ein Fehler aufgetreten (ungültiges json).'
+            'invalidJson': 'Es ist ein Fehler aufgetreten (Server antwortete mit ungültigem JSON).'
         }
     },
     'en': {
@@ -30,7 +30,7 @@ dictionary.set({
         'error': {
             'networkFailure': 'You are offline or server is not reachable at the moment.',
             'unknown': 'An error occured.',
-            'invalidJson': 'An error occured (invalid json).'
+            'invalidJson': 'An error occured (server responded with invalid json).'
         }
     }
 })
