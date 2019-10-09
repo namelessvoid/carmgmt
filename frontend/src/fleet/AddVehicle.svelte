@@ -3,7 +3,7 @@
 
     import { addVehicle } from './api';
 
-    let errors = [];
+    let infos = [];
 
     async function handleSubmit(event) {
         let vehicle = {}
@@ -14,9 +14,9 @@
 
         try {
             vehicle = await addVehicle(vehicle);
-            errors = []
+            infos = ['fleet.vehicleAdded']
         } catch(err) {
-            errors = err;
+            infos = err;
         }
     }
 </script>
@@ -33,8 +33,8 @@ label {
     <input type="submit" value={$_('fleet.addVehicle')} />
 </form>
 
-{#if errors}
-    {#each errors as error}
-        <p>{$_(error)}</p>
+{#if infos}
+    {#each infos as info}
+        <p>{$_(info)}</p>
     {/each}
 {/if}

@@ -8,7 +8,8 @@ dictionary.set({
                 'id': '#',
                 'name': 'Name',
             },
-            'addVehicle': 'Fahrzeug hinzufügen'
+            'addVehicle': 'Fahrzeug hinzufügen',
+            'vehicleAdded': 'Fahrzeug wurde hinzugefügt.'
         },
         'loading': 'Lädt...',
         'error': {
@@ -24,7 +25,8 @@ dictionary.set({
                 'id': '#',
                 'name': 'Name'
             },
-            'addVehicle': 'Add vehicle'
+            'addVehicle': 'Add vehicle',
+            'vehicleAdded': 'Vehicle has been added.'
         },
         'loading': 'Loading...',
         'error': {
