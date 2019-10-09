@@ -40,16 +40,16 @@ func Test_getAllVehicles(t *testing.T) {
 		expectedResponseBody: "[\"error.unknown\"]"}}
 	for _, testCfg := range tests {
 		t.Run(testCfg.name, func(t *testing.T) {
-			ctrl := gomock.NewController(t)
-			defer ctrl.Finish()
+			mockCtrl := gomock.NewController(t)
+			defer mockCtrl.Finish()
 
-			vs := mock_domain.NewMockVehicleService(ctrl)
+			vs := mock_domain.NewMockVehicleService(mockCtrl)
 			vs.EXPECT().GetAllVehicles().Return(testCfg.vehiclesFromService, testCfg.errorFromService)
 
 			handler := http.HandlerFunc(getAllVehicles(vs))
 			response := httptest.NewRecorder()
 
-			req, err := http.NewRequest("POST", "/cars", nil)
+			req, err := http.NewRequest("", "", nil)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -57,16 +57,16 @@ func Test_getAllVehicles(t *testing.T) {
 			handler.ServeHTTP(response, req)
 
 			if status := response.Code; status != testCfg.expectedResponseCode {
-				t.Errorf("GetAllVehicles returned wrong status code: got %v want %v", status, testCfg.expectedResponseCode)
+				t.Errorf("getAllVehicles() returned wrong status code: got %v want %v", status, testCfg.expectedResponseCode)
 			}
 
 			if content := response.Body.String(); content != testCfg.expectedResponseBody {
-				t.Errorf("GetAllVehicles returned unexpected content: got %v want %v", content, testCfg.expectedResponseBody)
+				t.Errorf("getAllVehicles() returned wrong content: got %v want %v", content, testCfg.expectedResponseBody)
 			}
 
 			expectedContentType := "application/json"
 			if contentType := response.Header().Get("Content-Type"); contentType != expectedContentType {
-				t.Errorf("GetAllVehicles returned unexpected Content-Type header: got %v want %v", contentType, expectedContentType)
+				t.Errorf("getAllVehicles() returned wrong Content-Type header: got %v want %v", contentType, expectedContentType)
 			}
 		})
 	}

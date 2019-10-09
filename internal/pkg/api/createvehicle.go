@@ -11,22 +11,30 @@ import (
 func createVehicle(vs domain.VehicleService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var createVehicleCommand domain.Vehicle
+
+		if r.Body == nil {
+			invalidJSONError(w)
+			return
+		}
+
 		err := json.NewDecoder(r.Body).Decode(&createVehicleCommand)
 		if err != nil {
 			log.Print(err)
-			http.Error(w, "[\"error.invalidJson\"]", http.StatusBadRequest)
+			invalidJSONError(w)
 			return
 		}
 
 		vehicle, err := vs.CreateVehicle(createVehicleCommand.Name)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			log.Print(err)
+			internalServerError(w)
 			return
 		}
 
 		json, err := json.Marshal(vehicle)
 		if err != nil {
-			http.Error(w, "["+err.Error()+"]", http.StatusInternalServerError)
+			log.Print(err)
+			internalServerError(w)
 			return
 		}
 

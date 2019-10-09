@@ -14,14 +14,14 @@ func getAllVehicles(vs domain.VehicleService) http.HandlerFunc {
 		vehicles, err := vs.GetAllVehicles()
 		if err != nil {
 			log.Println(err)
-			httpError(w, http.StatusInternalServerError)
+			internalServerError(w)
 			return
 		}
 
 		json, err := json.Marshal(vehicles)
 		if err != nil {
 			log.Println(err)
-			httpError(w, http.StatusInternalServerError)
+			internalServerError(w)
 			return
 		}
 
