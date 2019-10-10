@@ -12,9 +12,9 @@ import (
 func getVehicleByID(as domain.VehicleService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
-		id, err := strconv.Atoi(vars["id"])
+		id, err := strconv.Atoi(vars["vehicleID"])
 		if err != nil {
-			http.Error(w, "Invalid parameter 'id'", http.StatusBadRequest)
+			internalServerError(w)
 			return
 		}
 

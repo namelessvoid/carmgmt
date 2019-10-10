@@ -11,7 +11,7 @@ func ConfigureRoutes(r *mux.Router, vs domain.VehicleService, logger *zap.Logger
 	vehicleRouter := r.PathPrefix("/vehicles").Subrouter()
 	vehicleRouter.HandleFunc("", getAllVehicles(vs)).Methods("GET")
 	vehicleRouter.HandleFunc("", createVehicle(vs)).Methods("POST")
-	vehicleRouter.HandleFunc("/{id}", getVehicleByID(vs)).Methods("GET")
+	vehicleRouter.HandleFunc("/{vehicleID:[0-9]+}", getVehicleByID(vs)).Methods("GET")
 
 	vehicleRouter.HandleFunc("/{vehicleID:[0-9]+}/refuellings", newCreateRefuellingHandler(vs)).Methods("POST")
 }
