@@ -73,7 +73,7 @@ func main() {
 
 	r := mux.NewRouter()
 
-	api.ConfigureRoutes(r, vehicleService)
+	api.ConfigureRoutes(r, vehicleService, logger)
 
 	logger.Info("Running server on " + hostname)
 	logger.Fatal(http.ListenAndServe(hostname, api.CORSMiddleware()(r)).Error())
