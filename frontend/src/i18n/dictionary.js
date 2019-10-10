@@ -3,6 +3,7 @@ import { dictionary } from 'svelte-i18n';
 dictionary.set({
     'de-DE': {
         'fleet': {
+            'backToOverview': 'Zurück zur Flottenübersicht',
             'overview': 'Flottenübersicht',
             'vehicle' : {
                 'id': '#',
@@ -20,6 +21,7 @@ dictionary.set({
     },
     'en': {
         'fleet': {
+            'backToOverview': 'Back to fleet overview',
             'overview': 'Fleet overview',
             'vehicle': {
                 'id': '#',

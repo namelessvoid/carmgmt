@@ -1,6 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import { _ } from 'svelte-i18n';
+    import { navigate } from 'svelte-routing';
 
     import { getAllVehicles } from './api';
 
@@ -33,7 +34,7 @@ th {
             <th>{$_('fleet.vehicle.name')}</th>
         </tr>
         {#each vehicles as vehicle}
-        <tr>
+        <tr on:click={() => navigate(`/fleet/vehicle/${vehicle.id}`)}>
             <td>{vehicle.id}</td>
             <td>{vehicle.name}</td>
         </tr>
