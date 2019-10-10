@@ -56,11 +56,11 @@ func main() {
 
 	vehicle, _ := vehicleService.CreateVehicle("Foo Vehicle")
 	_, _ = vehicleService.CreateVehicle("Bar")
-	err = vehicleService.AddRefuellingToVehicle(domain.Refuelling{VehicleID: vehicle.ID})
+	_, err = vehicleService.CreateRefuelling(domain.Refuelling{VehicleID: vehicle.ID})
 	if err != nil {
 		logger.Error(err.Error())
 	}
-	err = vehicleService.AddRefuellingToVehicle(domain.Refuelling{VehicleID: vehicle.ID})
+	_, err = vehicleService.CreateRefuelling(domain.Refuelling{VehicleID: vehicle.ID})
 	if err != nil {
 		logger.Error(err.Error())
 	}

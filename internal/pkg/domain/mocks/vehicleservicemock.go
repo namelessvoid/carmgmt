@@ -63,17 +63,32 @@ func (mr *MockVehicleServiceMockRecorder) GetAllVehicles() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllVehicles", reflect.TypeOf((*MockVehicleService)(nil).GetAllVehicles))
 }
 
-// GetVehicleById mocks base method
-func (m *MockVehicleService) GetVehicleById(id int) (domain.Vehicle, error) {
+// GetVehicleByID mocks base method
+func (m *MockVehicleService) GetVehicleByID(id int) (domain.Vehicle, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetVehicleById", id)
+	ret := m.ctrl.Call(m, "GetVehicleByID", id)
 	ret0, _ := ret[0].(domain.Vehicle)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetVehicleById indicates an expected call of GetVehicleById
-func (mr *MockVehicleServiceMockRecorder) GetVehicleById(id interface{}) *gomock.Call {
+// GetVehicleByID indicates an expected call of GetVehicleByID
+func (mr *MockVehicleServiceMockRecorder) GetVehicleByID(id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetVehicleById", reflect.TypeOf((*MockVehicleService)(nil).GetVehicleById), id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetVehicleByID", reflect.TypeOf((*MockVehicleService)(nil).GetVehicleByID), id)
+}
+
+// CreateRefuelling mocks base method
+func (m *MockVehicleService) CreateRefuelling(r domain.Refuelling) (domain.Refuelling, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateRefuelling", r)
+	ret0, _ := ret[0].(domain.Refuelling)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateRefuelling indicates an expected call of CreateRefuelling
+func (mr *MockVehicleServiceMockRecorder) CreateRefuelling(r interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateRefuelling", reflect.TypeOf((*MockVehicleService)(nil).CreateRefuelling), r)
 }

@@ -3,11 +3,11 @@ package domain
 import "time"
 
 type Refuelling struct {
-	ID            int
-	VehicleID     int
-	Amount        float32
-	Price         float32
-	PricePerLiter float32
-	Time          time.Time
-	Kilometers    float32
+	ID            int       `json:"id"`
+	VehicleID     int       `json:"vehicleId"`
+	Amount        float32   `json:"amount"`
+	Price         float32   `json:"price"`
+	PricePerLiter float32   `json:"pricePerLiter"`
+	Time          time.Time `json:"time"`
+	Kilometers    float32   `json:"kilometers"`
 }

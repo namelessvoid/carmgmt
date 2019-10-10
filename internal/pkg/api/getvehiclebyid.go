@@ -18,7 +18,7 @@ func getVehicleByID(as domain.VehicleService) http.HandlerFunc {
 			return
 		}
 
-		vehicle, err := as.GetVehicleById(id)
+		vehicle, err := as.GetVehicleByID(id)
 		if err != nil {
 			http.NotFound(w, r)
 			return

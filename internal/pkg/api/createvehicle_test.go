@@ -35,7 +35,7 @@ func TestCreateVehicle(t *testing.T) {
 		expectedResponseCode: http.StatusBadRequest,
 		expectedResponseBody: "[\"error.invalidJson\"]"}, {
 		//
-		name:                 "Valid request",
+		name:                 "Vehicle created successfully",
 		requestBody:          strings.NewReader("{\"name\":\"VW Polo\"}"),
 		serviceIsCalled:      true,
 		vehicleName:          "VW Polo",

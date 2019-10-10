@@ -9,7 +9,8 @@ import (
 type VehicleService interface {
 	CreateVehicle(name string) (Vehicle, error)
 	GetAllVehicles() ([]Vehicle, error)
-	GetVehicleById(id int) (Vehicle, error)
+	GetVehicleByID(id int) (Vehicle, error)
+	CreateRefuelling(r Refuelling) (Refuelling, error)
 }
 
 type vehicleService struct {
@@ -40,7 +41,7 @@ func (*vehicleService) GetAllVehicles() ([]Vehicle, error) {
 	return vehicles, nil
 }
 
-func (*vehicleService) GetVehicleById(id int) (Vehicle, error) {
+func (*vehicleService) GetVehicleByID(id int) (Vehicle, error) {
 	if !doesVehicleExist(id) {
 		return Vehicle{ID: -1}, fmt.Errorf("No vehicle with id '%d'", id)
 	}
@@ -48,15 +49,16 @@ func (*vehicleService) GetVehicleById(id int) (Vehicle, error) {
 	return vehicles[id], nil
 }
 
-func (vs *vehicleService) AddRefuellingToVehicle(r Refuelling) error {
+func (vs *vehicleService) CreateRefuelling(r Refuelling) (Refuelling, error) {
 	if !doesVehicleExist(r.VehicleID) {
-		return fmt.Errorf("No vehicle with id '%d'", r.VehicleID)
+		return Refuelling{}, fmt.Errorf("No vehicle with id '%d'", r.VehicleID)
 	}
 
+	r.ID = len(refuellings)
 	refuellings = append(refuellings, r)
 	vs.logger.Info("Added refuelling to vehicle.", zap.Int("vehicleId", r.VehicleID), zap.Int("totalRefulingsCount", len(refuellings)))
 
-	return nil
+	return r, nil
 }
 
 func (*vehicleService) GetRefuellingsByVehicle(vehicleID int) ([]Refuelling, error) {
