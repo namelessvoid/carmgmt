@@ -3,14 +3,24 @@
     import { _ } from 'svelte-i18n';
     import { navigate } from 'svelte-routing';
 
+    import Info from '../Info.svelte';
+
     import { getAllVehicles } from './api';
 
     let vehicles = [];
-    let loading = false;
+    let loading = true;
+    let errors = [];
 
     onMount(async () => {
         loading = true;
-        vehicles = await getAllVehicles();
+
+        try {
+            vehicles = await getAllVehicles();
+        } catch(e) {
+            vehicles = [];
+            errors = e;
+        }
+
         loading = false;
     });
 </script>
@@ -42,3 +52,4 @@ th {
     </table>
 {/if}
 
+<Info infos={errors} />

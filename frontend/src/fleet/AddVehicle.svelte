@@ -1,6 +1,8 @@
 <script>
     import { _ } from 'svelte-i18n';
 
+    import Info from '../Info.svelte';
+
     import { addVehicle } from './api';
 
     let infos = [];
@@ -33,8 +35,4 @@ label {
     <input type="submit" value={$_('fleet.addVehicle')} />
 </form>
 
-{#if infos}
-    {#each infos as info}
-        <p>{$_(info)}</p>
-    {/each}
-{/if}
+<Info infos={infos} />
