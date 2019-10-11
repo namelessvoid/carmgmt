@@ -2,20 +2,21 @@
 	import { Router, Route } from 'svelte-routing';
 	import Fleet from './fleet/Fleet.svelte';
 	import VehicleDetail from './fleet/VehicleDetail.svelte';
-	import LanguageSwitcher from './i18n/LanguageSwitcher.svelte';
+	import Header from './Header.svelte';
 
 	let url = "";
 </script>
 
 <style>
-	h1 {
-		color: purple;
-	}
+.content {
+	padding: 8px;
+}
 </style>
 
-<Router url={url}>
-	<h1>Hello foo!</h1><LanguageSwitcher />
-
-	<Route path="fleet" component={Fleet} />
-	<Route path="fleet/vehicle/:vehicleId" component={VehicleDetail} />
-</Router>
+<Header />
+<div class="content">
+	<Router url={url}>
+		<Route path="fleet" component={Fleet} />
+		<Route path="fleet/vehicle/:vehicleId" component={VehicleDetail} />
+	</Router>
+</div>
