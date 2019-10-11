@@ -11,6 +11,7 @@ type VehicleService interface {
 	GetAllVehicles() ([]Vehicle, error)
 	GetVehicleByID(id int) (Vehicle, error)
 	CreateRefuelling(r Refuelling) (Refuelling, error)
+	GetRefuellingsByVehicle(vehicleID int) ([]Refuelling, error)
 }
 
 type vehicleService struct {

@@ -9,7 +9,7 @@ import (
 	"github.com/namelessvoid/carmgmt/internal/pkg/domain"
 )
 
-func getVehicleByID(as domain.VehicleService) http.HandlerFunc {
+func getVehicleByID(vs domain.VehicleService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		id, err := strconv.Atoi(vars["vehicleID"])
@@ -18,7 +18,7 @@ func getVehicleByID(as domain.VehicleService) http.HandlerFunc {
 			return
 		}
 
-		vehicle, err := as.GetVehicleByID(id)
+		vehicle, err := vs.GetVehicleByID(id)
 		if err != nil {
 			http.NotFound(w, r)
 			return

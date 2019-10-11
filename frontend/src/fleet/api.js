@@ -41,3 +41,15 @@ export async function addVehicle(vehicle) {
         })
     );
 }
+
+export async function getVehicleDetail(vehicleId) {
+    return await handleFetch(
+        fetch(host + `/vehicles/${vehicleId}`)
+    );
+}
+
+export async function getRefuellingsByVehicle(vehicleId) {
+    return await handleFetch(
+        fetch(host + `/vehicles/${vehicleId}/refuellings`)
+    );
+}

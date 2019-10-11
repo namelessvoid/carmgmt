@@ -5,7 +5,6 @@ locale.set('en');
 locale.set(
     getClientLocale({
         navigator: false,
-        search: 'loc',
         fallback: 'en',
     }),
 );

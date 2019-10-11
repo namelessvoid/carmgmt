@@ -8,6 +8,15 @@ dictionary.set({
             'vehicle' : {
                 'id': '#',
                 'name': 'Name',
+                'refuellings': 'Tankvorgänge'
+            },
+            'refuelling': {
+                'time': 'Datum',
+                'price': 'Rechnungsbetrag',
+                'amount': 'Abgabe in Liter',
+                'pricePerLiter': 'Preis pro Liter',
+                'kilometers': 'Kilometerstand',
+                'consumption': 'Verbrauch l/100km'
             },
             'addVehicle': 'Fahrzeug hinzufügen',
             'vehicleAdded': 'Fahrzeug wurde hinzugefügt.'
@@ -25,10 +34,19 @@ dictionary.set({
             'overview': 'Fleet overview',
             'vehicle': {
                 'id': '#',
-                'name': 'Name'
+                'name': 'Name',
+                'refuellings': 'Refuellings'
             },
             'addVehicle': 'Add vehicle',
-            'vehicleAdded': 'Vehicle has been added.'
+            'vehicleAdded': 'Vehicle has been added.',
+            'refuelling': {
+                'time': 'Date',
+                'price': 'Price',
+                'amount': 'Amount in liters',
+                'pricePerLiter': 'Price per liter',
+                'kilometers': 'Kilometers',
+                'consumption': 'Consumption in l/100km'
+            },
         },
         'loading': 'Loading...',
         'error': {
