@@ -11,10 +11,18 @@
 
     function reCreateFlatpickr(loc) {
         let fpLocale = loc === 'de-DE' ? 'de' : 'en';
-        if(fp) fp.destroy();
+        let dateStr = "";
+
+        if(fp) {
+            dateStr = fp.input.value;
+            fp.destroy();
+        }
+
         fp = Flatpickr(dateInput, {
+            enableTime: true,
             locale: FlatpickrLanguages[fpLocale]
         });
+        fp.setDate(dateStr);
     }
     
     onMount(() => {
