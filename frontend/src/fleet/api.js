@@ -14,7 +14,7 @@ async function handleFetch(fetchPromise) {
         try {
             errors = await response.json();
         } catch(e) {
-            console.error(e)
+            console.error(e, response.status)
         }
         throw errors;
     }

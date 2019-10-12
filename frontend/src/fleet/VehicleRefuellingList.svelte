@@ -5,6 +5,7 @@
     import { getRefuellingsByVehicle } from './api';
 
     import Info from '../Info.svelte';
+    import LoadingSpinner from '../LoadingSpinner.svelte';
 
     export let vehicleId = null;
 
@@ -45,8 +46,5 @@
     {/each}
 </table>
 
-{#if loading}
-<p>{$_('loading')}</p>
-{/if}
-
+<LoadingSpinner loading={loading} />
 <Info infos={errors} />

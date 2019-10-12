@@ -1,11 +1,14 @@
 <script>
     import { _ } from 'svelte-i18n';
+    import { createEventDispatcher } from 'svelte';
 
     import Info from '../Info.svelte';
 
     import { addVehicle } from './api';
 
     let infos = [];
+
+    const dispatchVehicleAdded = createEventDispatcher();
 
     async function handleSubmit(event) {
         let vehicle = {}
@@ -17,6 +20,7 @@
         try {
             vehicle = await addVehicle(vehicle);
             infos = ['fleet.vehicleAdded']
+            dispatchVehicleAdded('vehicleAdded');
         } catch(err) {
             infos = err;
         }

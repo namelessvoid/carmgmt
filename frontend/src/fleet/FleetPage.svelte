@@ -3,8 +3,10 @@
 
     import VehicleList from './VehicleList.svelte';
     import AddVehicle from './AddVehicle.svelte';
+
+    let updateVehicleList;
 </script>
 
 <h2>{$_('fleet.overview')}</h2>
-<VehicleList />
-<AddVehicle />
+<VehicleList bind:update={updateVehicleList}/>
+<AddVehicle on:vehicleAdded={() => updateVehicleList()}/>

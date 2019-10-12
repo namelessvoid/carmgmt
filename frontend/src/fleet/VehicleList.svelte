@@ -4,14 +4,11 @@
     import { navigate } from 'svelte-routing';
 
     import Info from '../Info.svelte';
+    import LoadingSpinner from '../LoadingSpinner.svelte';
 
     import { getAllVehicles } from './api';
 
-    let vehicles = [];
-    let loading = true;
-    let errors = [];
-
-    onMount(async () => {
+    export const update = async () => {
         loading = true;
 
         try {
@@ -22,6 +19,14 @@
         }
 
         loading = false;
+    }
+
+    let vehicles = [];
+    let loading = true;
+    let errors = [];
+
+    onMount(async () => {
+        await update();
     });
 </script>
 
@@ -35,21 +40,18 @@ th {
 }
 </style>
 
-{#if loading}
-    <p>{$_('loading')}</p>
-{:else}
-    <table>
-        <tr>
-            <th>{$_('fleet.vehicle.id')}</th>
-            <th>{$_('fleet.vehicle.name')}</th>
-        </tr>
-        {#each vehicles as vehicle}
-        <tr on:click={() => navigate(`/fleet/vehicle/${vehicle.id}`)}>
-            <td>{vehicle.id}</td>
-            <td>{vehicle.name}</td>
-        </tr>
-        {/each}
-    </table>
-{/if}
+<table>
+    <tr>
+        <th>{$_('fleet.vehicle.id')}</th>
+        <th>{$_('fleet.vehicle.name')}</th>
+    </tr>
+    {#each vehicles as vehicle (vehicle.id)}
+    <tr on:click={() => navigate(`/fleet/vehicle/${vehicle.id}`)}>
+        <td>{vehicle.id}</td>
+        <td>{vehicle.name}</td>
+    </tr>
+    {/each}
+</table>
 
+<LoadingSpinner loading={loading} />
 <Info infos={errors} />
