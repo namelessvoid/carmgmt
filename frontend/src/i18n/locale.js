@@ -8,7 +8,3 @@ locale.set(
         fallback: 'en',
     }),
 );
-  
-locale.subscribe(l => {
-    console.log('locale change', l)
-});
