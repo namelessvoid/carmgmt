@@ -6,11 +6,13 @@
     
     import VehicleDetail from './VehicleDetail.svelte';
     import VehicleRefuellingList from './VehicleRefuellingList.svelte';
+    import AddRefuelling from './AddRefuelling.svelte';
 </script>
 
 <Link to="/fleet">{$_('fleet.backToOverview')}</Link>
 
-<VehicleDetail vehicleId={vehicleId} />
+<VehicleDetail {vehicleId} />
 
 <h3>{$_('fleet.vehicle.refuellings')}</h3>
-<VehicleRefuellingList vehicleId={vehicleId} />
+<VehicleRefuellingList {vehicleId} />
+<AddRefuelling {vehicleId} />

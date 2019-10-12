@@ -19,7 +19,8 @@ dictionary.set({
                 'consumption': 'Verbrauch l/100km'
             },
             'addVehicle': 'Fahrzeug hinzufügen',
-            'vehicleAdded': 'Fahrzeug wurde hinzugefügt.'
+            'vehicleAdded': 'Fahrzeug wurde hinzugefügt.',
+            'addRefuelling': 'Tankvorgang hinzufügen'
         },
         'loading': 'Lädt...',
         'error': {
@@ -47,6 +48,7 @@ dictionary.set({
                 'kilometers': 'Kilometers',
                 'consumption': 'Consumption in l/100km'
             },
+            'addRefuelling': 'Add refuelling'
         },
         'loading': 'Loading...',
         'error': {

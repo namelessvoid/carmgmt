@@ -40,4 +40,11 @@
     });
 </script>
 
+<style>
+input {
+    flex: 2;
+    min-width: 0;
+}
+</style>
+
 <input name="time" bind:this={dateInput} />
