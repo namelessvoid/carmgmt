@@ -15,6 +15,10 @@
 </script>
 
 <style>
+form {
+    max-width: 412px;
+}
+
 .form-row {
     display: flex;
     white-space: nowrap;
@@ -23,6 +27,8 @@
 .form-row > label {
     padding: 0 8px 0 4px;
     flex: 1;
+    align-items: center;
+    display: flex;
 }
 
 .form-row > input {
@@ -55,5 +61,9 @@
     <div class="form-row">
         <label for="pricePerLiter">{$_('fleet.refuelling.pricePerLiter')}</label>
         <input type="number" name="pricePerLiter" />
-    </div>    
+    </div>
+
+    <div class="form-row">
+        <input type="submit" value={$_('fleet.addRefuelling')} />
+    </div>
 </form>
