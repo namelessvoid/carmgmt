@@ -67,7 +67,7 @@ func (*vehicleService) GetRefuellingsByVehicle(vehicleID int) ([]Refuelling, err
 		return nil, fmt.Errorf("No vehicle with id '%d'", vehicleID)
 	}
 
-	var vehicleRefuellings []Refuelling
+	vehicleRefuellings := []Refuelling{}
 
 	for _, r := range refuellings {
 		if r.VehicleID == vehicleID {
