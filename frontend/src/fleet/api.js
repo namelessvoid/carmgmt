@@ -23,7 +23,7 @@ async function handleFetch(fetchPromise) {
         return await response.json();  
     } catch(e) {
         console.error(e);
-        throw ['error.invalidJson']
+        throw ['error.unknown']
     }
 }
 
@@ -52,4 +52,22 @@ export async function getRefuellingsByVehicle(vehicleId) {
     return await handleFetch(
         fetch(host + `/vehicles/${vehicleId}/refuellings`)
     );
+}
+
+export async function addRefuellingToVehicle(vehicleId, refuelling) {
+    return await handleFetch(
+        fetch(host + `/vehicles/${vehicleId}/refuellings`, {
+            method: 'POST',
+            body: JSON.stringify(refuelling)
+        })
+    )
+}
+
+export function formToJson(form) {
+    let obj = {};
+    const formData = new FormData(event.target);
+    formData.forEach((value, key) => {
+        obj[key] = value;
+    });
+    return obj;
 }

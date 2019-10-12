@@ -20,7 +20,8 @@
 
         fp = Flatpickr(dateInput, {
             enableTime: true,
-            locale: FlatpickrLanguages[fpLocale]
+            locale: FlatpickrLanguages[fpLocale],
+            dateFormat: 'Z'
         });
         fp.setDate(dateStr);
     }

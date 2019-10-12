@@ -4,18 +4,14 @@
 
     import Info from '../Info.svelte';
 
-    import { addVehicle } from './api';
+    import { addVehicle, formToJson } from './api';
 
     let infos = [];
 
     const dispatchVehicleAdded = createEventDispatcher();
 
     async function handleSubmit(event) {
-        let vehicle = {}
-        const formData = new FormData(event.target);
-        formData.forEach((value, key) => {
-            vehicle[key] = value;
-        });
+        const vehicle = formToJson(event.target);
 
         try {
             vehicle = await addVehicle(vehicle);
