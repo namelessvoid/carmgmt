@@ -79,7 +79,6 @@ button:focus {
 
 .table > tr:hover > td {
 	background-color: rgba(144, 238, 144, 0.5);
-	cursor: pointer;
 }
 
 .table td {

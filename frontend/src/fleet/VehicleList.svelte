@@ -30,6 +30,12 @@
     });
 </script>
 
+<style>
+td {
+    cursor: pointer;
+}
+</style>
+
 <table class="table">
     <tr>
         <th>{$_('fleet.vehicle.id')}</th>
