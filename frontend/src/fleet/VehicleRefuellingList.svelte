@@ -26,6 +26,7 @@
     });
 </script>
 
+{#if refuellings.length > 0 }
 <table>
     <tr>
         <th>{$_('fleet.refuelling.time')}</th>
@@ -43,8 +44,12 @@
         <td>{refuelling.price}</td>
         <td>{refuelling.pricePerLiter}</td>
         <td>tdb</td>
+    </tr>
     {/each}
 </table>
+{:else}
+<p>{$_('fleet.refuelling.emptyList')}</p>
+{/if}
 
 <LoadingSpinner loading={loading} />
 <Info infos={errors} />

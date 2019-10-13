@@ -24,10 +24,6 @@ a:visited {
 	color: rgb(0,80,160);
 }
 
-label {
-	display: block;
-}
-
 input, button, select, textarea {
 	font-family: inherit;
 	font-size: inherit;
@@ -58,4 +54,25 @@ button:active {
 
 button:focus {
 	border-color: #666;
+}
+
+.form {
+    max-width: 412px;
+}
+
+.form-row {
+    display: flex;
+    white-space: nowrap;
+}
+
+.form-row > label {
+    padding: 0 8px 8px 4px;
+    flex: 1;
+    align-items: center;
+    display: flex;
+}
+
+.form-row > input {
+    flex: 2;
+	min-width: 0;
 }

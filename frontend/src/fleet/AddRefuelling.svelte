@@ -31,30 +31,7 @@
     }
 </script>
 
-<style>
-form {
-    max-width: 412px;
-}
-
-.form-row {
-    display: flex;
-    white-space: nowrap;
-}
-
-.form-row > label {
-    padding: 0 8px 0 4px;
-    flex: 1;
-    align-items: center;
-    display: flex;
-}
-
-.form-row > input {
-    flex: 2;
-    min-width: 0;
-}
-</style>
-
-<form on:submit|preventDefault={handleSubmit}>
+<form class="form" on:submit|preventDefault={handleSubmit}>
     <div class="form-row">
         <label for="time">{$_('fleet.refuelling.time')}</label>
         <DatePicker />

@@ -15,4 +15,6 @@
 
 <h3>{$_('fleet.vehicle.refuellings')}</h3>
 <VehicleRefuellingList {vehicleId} />
+
+<h4>{$_('fleet.addRefuelling')}</h4>
 <AddRefuelling {vehicleId} />

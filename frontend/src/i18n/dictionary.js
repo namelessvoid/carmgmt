@@ -8,7 +8,10 @@ dictionary.set({
             'vehicle' : {
                 'id': '#',
                 'name': 'Name',
-                'refuellings': 'Tankvorgänge'
+                'refuellings': 'Tankvorgänge',
+                'validation': {
+                    'nameNotEmpty': 'Der Name darf nicht leer sein'
+                }
             },
             'refuelling': {
                 'time': 'Datum',
@@ -16,7 +19,8 @@ dictionary.set({
                 'amount': 'Abgabe in Liter',
                 'pricePerLiter': 'Preis pro Liter',
                 'kilometers': 'Kilometerstand',
-                'consumption': 'Verbrauch l/100km'
+                'consumption': 'Verbrauch l/100km',
+                'emptyList': 'Es sind noch keine Tankvorgänge vorhanden.'
             },
             'addVehicle': 'Fahrzeug hinzufügen',
             'vehicleAdded': 'Fahrzeug wurde hinzugefügt.',
@@ -36,7 +40,10 @@ dictionary.set({
             'vehicle': {
                 'id': '#',
                 'name': 'Name',
-                'refuellings': 'Refuellings'
+                'refuellings': 'Refuellings',
+                'validation': {
+                    'nameNotEmpty': 'Name must not be empty'
+                }
             },
             'addVehicle': 'Add vehicle',
             'vehicleAdded': 'Vehicle has been added.',
@@ -46,7 +53,8 @@ dictionary.set({
                 'amount': 'Amount in liters',
                 'pricePerLiter': 'Price per liter',
                 'kilometers': 'Kilometers',
-                'consumption': 'Consumption in l/100km'
+                'consumption': 'Consumption in l/100km',
+                'emptyList': 'No refuellings added yet'
             },
             'addRefuelling': 'Add refuelling'
         },
