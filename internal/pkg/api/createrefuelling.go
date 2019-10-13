@@ -27,16 +27,16 @@ func newCreateRefuellingHandler(vs domain.VehicleService) http.HandlerFunc {
 			return
 		}
 
-		createRefuellingCommand := domain.Refuelling{}
-		err = json.NewDecoder(r.Body).Decode(&createRefuellingCommand)
+		cmd := domain.CreateRefuellingCommand{}
+		err = json.NewDecoder(r.Body).Decode(&cmd)
 		if err != nil {
 			invalidJSONError(w)
 			return
 		}
 
-		createRefuellingCommand.VehicleID = vehicleID
+		cmd.VehicleID = &vehicleID
 
-		refuelling, err := vs.CreateRefuelling(createRefuellingCommand)
+		refuelling, err := vs.CreateRefuelling(cmd)
 		if err != nil {
 			internalServerError(w)
 			return

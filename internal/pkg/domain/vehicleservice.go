@@ -10,7 +10,7 @@ type VehicleService interface {
 	CreateVehicle(name string) (Vehicle, error)
 	GetAllVehicles() ([]Vehicle, error)
 	GetVehicleByID(id int) (Vehicle, error)
-	CreateRefuelling(r Refuelling) (Refuelling, error)
+	CreateRefuelling(cmd CreateRefuellingCommand) (Refuelling, error)
 	GetRefuellingsByVehicle(vehicleID int) ([]Refuelling, error)
 }
 
@@ -50,13 +50,21 @@ func (*vehicleService) GetVehicleByID(id int) (Vehicle, error) {
 	return vehicles[id], nil
 }
 
-func (vs *vehicleService) CreateRefuelling(r Refuelling) (Refuelling, error) {
-	if !doesVehicleExist(r.VehicleID) {
-		return Refuelling{}, fmt.Errorf("No vehicle with id '%d'", r.VehicleID)
+func (vs *vehicleService) CreateRefuelling(cmd CreateRefuellingCommand) (Refuelling, error) {
+	err := cmd.validate()
+	if err != nil {
+		return Refuelling{}, err
 	}
 
+	if !doesVehicleExist(*cmd.VehicleID) {
+		return Refuelling{}, fmt.Errorf("No vehicle with id '%d'", *cmd.VehicleID)
+	}
+
+	r := Refuelling{VehicleID: *cmd.VehicleID, Amount: *cmd.Amount, Price: *cmd.Price, PricePerLiter: *cmd.PricePerLiter, Time: *cmd.Time, Kilometers: *cmd.Kilometers}
 	r.ID = len(refuellings)
+
 	refuellings = append(refuellings, r)
+
 	vs.logger.Info("Added refuelling to vehicle.", zap.Int("vehicleId", r.VehicleID), zap.Int("totalRefulingsCount", len(refuellings)))
 
 	return r, nil

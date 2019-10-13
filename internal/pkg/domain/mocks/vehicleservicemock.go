@@ -79,18 +79,18 @@ func (mr *MockVehicleServiceMockRecorder) GetVehicleByID(id interface{}) *gomock
 }
 
 // CreateRefuelling mocks base method
-func (m *MockVehicleService) CreateRefuelling(r domain.Refuelling) (domain.Refuelling, error) {
+func (m *MockVehicleService) CreateRefuelling(cmd domain.CreateRefuellingCommand) (domain.Refuelling, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateRefuelling", r)
+	ret := m.ctrl.Call(m, "CreateRefuelling", cmd)
 	ret0, _ := ret[0].(domain.Refuelling)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CreateRefuelling indicates an expected call of CreateRefuelling
-func (mr *MockVehicleServiceMockRecorder) CreateRefuelling(r interface{}) *gomock.Call {
+func (mr *MockVehicleServiceMockRecorder) CreateRefuelling(cmd interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateRefuelling", reflect.TypeOf((*MockVehicleService)(nil).CreateRefuelling), r)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateRefuelling", reflect.TypeOf((*MockVehicleService)(nil).CreateRefuelling), cmd)
 }
 
 // GetRefuellingsByVehicle mocks base method

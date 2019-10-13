@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -53,23 +52,6 @@ func main() {
 	defer logger.Sync()
 
 	vehicleService := domain.NewVehicleService(logger)
-
-	vehicle, _ := vehicleService.CreateVehicle("Foo Vehicle")
-	_, _ = vehicleService.CreateVehicle("Bar")
-	_, err = vehicleService.CreateRefuelling(domain.Refuelling{VehicleID: vehicle.ID, Amount: 10, Price: 60, PricePerLiter: 6, Kilometers: 30000, Time: time.Date(2019, 12, 1, 12, 14, 0, 0, time.UTC)})
-	if err != nil {
-		logger.Error(err.Error())
-	}
-	_, err = vehicleService.CreateRefuelling(domain.Refuelling{VehicleID: vehicle.ID, Amount: 5, Price: 60, PricePerLiter: 12, Kilometers: 20000, Time: time.Date(2019, 6, 17, 12, 14, 0, 0, time.UTC)})
-	if err != nil {
-		logger.Error(err.Error())
-	}
-	refuellings, err := vehicleService.GetRefuellingsByVehicle(vehicle.ID)
-	if err != nil {
-		logger.Error(err.Error())
-	}
-
-	fmt.Println(refuellings)
 
 	r := mux.NewRouter()
 
