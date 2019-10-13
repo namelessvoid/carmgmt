@@ -14,7 +14,7 @@
         const vehicle = formToJson(event.target);
 
         try {
-            vehicle = await addVehicle(vehicle);
+            await addVehicle(vehicle);
             infos = ['fleet.vehicleAdded']
             dispatchVehicleAdded('vehicleAdded');
         } catch(err) {
