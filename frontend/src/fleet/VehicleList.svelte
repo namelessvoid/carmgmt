@@ -13,6 +13,7 @@
 
         try {
             vehicles = await getAllVehicles();
+            errors = [];
         } catch(e) {
             vehicles = [];
             errors = e;
