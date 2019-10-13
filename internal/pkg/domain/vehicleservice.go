@@ -39,6 +39,9 @@ func (vs *vehicleService) CreateVehicle(name string) (Vehicle, error) {
 }
 
 func (*vehicleService) GetAllVehicles() ([]Vehicle, error) {
+	if len(vehicles) == 0 {
+		return []Vehicle{}, nil
+	}
 	return vehicles, nil
 }
 
