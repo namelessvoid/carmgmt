@@ -16,10 +16,10 @@ dictionary.set({
             'refuelling': {
                 'time': 'Datum',
                 'price': 'Rechnungsbetrag',
-                'amount': 'Abgabe in Liter',
+                'amount': 'Abgabe',
                 'pricePerLiter': 'Preis pro Liter',
-                'kilometers': 'Kilometerstand',
-                'consumption': 'Verbrauch l/100km',
+                'kilometers': 'Tripkilometer',
+                'consumption': 'Verbrauch',
                 'emptyList': 'Es sind noch keine Tankvorgänge vorhanden.'
             },
             'addVehicle': 'Fahrzeug hinzufügen',
@@ -50,10 +50,10 @@ dictionary.set({
             'refuelling': {
                 'time': 'Date',
                 'price': 'Price',
-                'amount': 'Amount in liters',
+                'amount': 'Amount',
                 'pricePerLiter': 'Price per liter',
-                'kilometers': 'Kilometers',
-                'consumption': 'Consumption in l/100km',
+                'kilometers': 'Trip kilometers',
+                'consumption': 'Consumption',
                 'emptyList': 'No refuellings added yet'
             },
             'addRefuelling': 'Add refuelling'

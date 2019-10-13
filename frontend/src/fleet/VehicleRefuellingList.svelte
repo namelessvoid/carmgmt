@@ -27,7 +27,7 @@
 </script>
 
 {#if refuellings.length > 0 }
-<table>
+<table class="table">
     <tr>
         <th>{$_('fleet.refuelling.time')}</th>
         <th>{$_('fleet.refuelling.kilometers')}</th>
@@ -39,10 +39,10 @@
     {#each refuellings as refuelling}
     <tr>
         <td>{refuelling.time}</td>
-        <td>{refuelling.kilometers}</td>
-        <td>{refuelling.amount}</td>
-        <td>{refuelling.price}</td>
-        <td>{refuelling.pricePerLiter}</td>
+        <td>{refuelling.kilometers} km</td>
+        <td>{refuelling.amount} L</td>
+        <td>{refuelling.price} €</td>
+        <td>{refuelling.pricePerLiter} €/L</td>
         <td>tdb</td>
     </tr>
     {/each}

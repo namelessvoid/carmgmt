@@ -30,17 +30,7 @@
     });
 </script>
 
-<style>
-table {
-    width: 100%;
-}
-
-th {
-    text-align: left;
-}
-</style>
-
-<table>
+<table class="table">
     <tr>
         <th>{$_('fleet.vehicle.id')}</th>
         <th>{$_('fleet.vehicle.name')}</th>
