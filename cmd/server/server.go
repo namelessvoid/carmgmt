@@ -51,7 +51,8 @@ func main() {
 	}
 	defer logger.Sync()
 
-	vehicleService := domain.NewVehicleService(logger)
+	vehicleRepository := domain.NewVehicleRepository()
+	vehicleService := domain.NewVehicleService(vehicleRepository, logger)
 
 	r := mux.NewRouter()
 

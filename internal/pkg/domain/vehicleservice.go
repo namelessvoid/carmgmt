@@ -1,8 +1,6 @@
 package domain
 
 import (
-	"fmt"
-
 	"go.uber.org/zap"
 )
 
@@ -16,79 +14,42 @@ type VehicleService interface {
 
 type vehicleService struct {
 	logger *zap.Logger
+	repo   VehicleRepository
 }
 
-var vehicles []Vehicle
 var refuellings []Refuelling
 
-func NewVehicleService(l *zap.Logger) *vehicleService {
+func NewVehicleService(repo VehicleRepository, l *zap.Logger) *vehicleService {
 	logger := l
 	if logger == nil {
 		logger = zap.NewNop()
 	}
 
-	return &vehicleService{logger: logger}
+	return &vehicleService{repo: repo, logger: logger}
 }
 
 func (vs *vehicleService) CreateVehicle(name string) (Vehicle, error) {
-	id := len(vehicles)
-	vehicle := Vehicle{ID: id, Name: name}
-	vehicles = append(vehicles, vehicle)
-	vs.logger.Info("Created vehicle.", zap.Int("vehicleCount", len(vehicles)))
-	return vehicle, nil
+	vehicle := Vehicle{ID: -1, Name: name}
+	return vs.repo.CreateVehicle(vehicle)
 }
 
-func (*vehicleService) GetAllVehicles() ([]Vehicle, error) {
-	if len(vehicles) == 0 {
-		return []Vehicle{}, nil
-	}
-	return vehicles, nil
+func (vs *vehicleService) GetAllVehicles() ([]Vehicle, error) {
+	return vs.repo.GetAllVehicles()
 }
 
-func (*vehicleService) GetVehicleByID(id int) (Vehicle, error) {
-	if !doesVehicleExist(id) {
-		return Vehicle{ID: -1}, fmt.Errorf("No vehicle with id '%d'", id)
-	}
-
-	return vehicles[id], nil
+func (vs *vehicleService) GetVehicleByID(id int) (Vehicle, error) {
+	return vs.repo.GetVehicleByID(id)
 }
 
 func (vs *vehicleService) CreateRefuelling(cmd CreateRefuellingCommand) (Refuelling, error) {
-	err := cmd.validate()
+	r, err := NewRefuelling(cmd)
 	if err != nil {
 		return Refuelling{}, err
 	}
 
-	if !doesVehicleExist(*cmd.VehicleID) {
-		return Refuelling{}, fmt.Errorf("No vehicle with id '%d'", *cmd.VehicleID)
-	}
-
-	r := Refuelling{VehicleID: *cmd.VehicleID, Amount: *cmd.Amount, Price: *cmd.Price, PricePerLiter: *cmd.PricePerLiter, Time: *cmd.Time, Kilometers: *cmd.Kilometers}
-	r.ID = len(refuellings)
-
-	refuellings = append(refuellings, r)
-
-	vs.logger.Info("Added refuelling to vehicle.", zap.Int("vehicleId", r.VehicleID), zap.Int("totalRefulingsCount", len(refuellings)))
-
-	return r, nil
+	return vs.repo.CreateRefuelling(r)
 }
 
-func (*vehicleService) GetRefuellingsByVehicle(vehicleID int) ([]Refuelling, error) {
-	if !doesVehicleExist(vehicleID) {
-		return nil, fmt.Errorf("No vehicle with id '%d'", vehicleID)
-	}
-
-	vehicleRefuellings := []Refuelling{}
-
-	for _, r := range refuellings {
-		if r.VehicleID == vehicleID {
-			vehicleRefuellings = append(vehicleRefuellings, r)
-		}
-	}
-
-	return vehicleRefuellings, nil
-}
-
-func doesVehicleExist(id int) bool {
-	return id >= 0 && id < len(vehicles)
+func (vs *vehicleService) GetRefuellingsByVehicle(vehicleID int) ([]Refuelling, error) {
+	return vs.repo.GetRefuellingsByVehicleID(vehicleID)
 }
