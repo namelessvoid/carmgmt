@@ -96,6 +96,11 @@ func NewRefuellingTestBuilder() refuellingTestBuilder {
 		Consumption:   40}}
 }
 
+func (rb refuellingTestBuilder) WithID(id int) refuellingTestBuilder {
+	rb.ID = id
+	return rb
+}
+
 func (rb refuellingTestBuilder) Build() Refuelling {
 	return rb.Refuelling
 }
