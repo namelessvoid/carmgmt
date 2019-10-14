@@ -10,8 +10,6 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"go.uber.org/zap"
-
 	"github.com/namelessvoid/carmgmt/internal/pkg/domain"
 	mock_domain "github.com/namelessvoid/carmgmt/internal/pkg/domain/mocks"
 
@@ -37,10 +35,10 @@ func Test_getRefuellingsByVehicle(t *testing.T) {
 		//
 		name:                   "Refuellings are returned from VehicleService",
 		requestVehicleID:       "20",
-		refuellingsFromService: []domain.Refuelling{{ID: 1, VehicleID: 20, Amount: 30.0, Price: 40.0, PricePerLiter: 50.0, Time: time.Date(1994, 3, 12, 13, 14, 15, 0, time.UTC), Kilometers: 70}, {ID: 2, VehicleID: 20, Amount: 33.0, Price: 44.0, PricePerLiter: 55.0, Time: time.Date(1996, 3, 12, 13, 14, 15, 0, time.UTC), Kilometers: 77}},
+		refuellingsFromService: []domain.Refuelling{{ID: 1, VehicleID: 20, Amount: 30.0, Price: 40.0, PricePerLiter: 50.0, Time: time.Date(1994, 3, 12, 13, 14, 15, 0, time.UTC), Kilometers: 70, Consumption: 80}, {ID: 2, VehicleID: 20, Amount: 33.0, Price: 44.0, PricePerLiter: 55.0, Time: time.Date(1996, 3, 12, 13, 14, 15, 0, time.UTC), Kilometers: 77, Consumption: 88}},
 		errorFromService:       nil,
 		expectedResponseCode:   http.StatusOK,
-		expectedResponseBody:   "[{\"id\":1,\"vehicleId\":20,\"amount\":30,\"price\":40,\"pricePerLiter\":50,\"time\":\"1994-03-12T13:14:15Z\",\"kilometers\":70},{\"id\":2,\"vehicleId\":20,\"amount\":33,\"price\":44,\"pricePerLiter\":55,\"time\":\"1996-03-12T13:14:15Z\",\"kilometers\":77}]"}, {
+		expectedResponseBody:   "[{\"id\":1,\"vehicleId\":20,\"amount\":30,\"price\":40,\"pricePerLiter\":50,\"time\":\"1994-03-12T13:14:15Z\",\"kilometers\":70,\"consumption\":80},{\"id\":2,\"vehicleId\":20,\"amount\":33,\"price\":44,\"pricePerLiter\":55,\"time\":\"1996-03-12T13:14:15Z\",\"kilometers\":77,\"consumption\":88}]"}, {
 		//
 		name:                   "VehicleService returns error",
 		requestVehicleID:       "20",
@@ -55,8 +53,6 @@ func Test_getRefuellingsByVehicle(t *testing.T) {
 		expectedResponseBody: "[\"error.unknown\"]"}}
 	for _, testCfg := range tests {
 		t.Run(testCfg.name, func(t *testing.T) {
-			logger, _ := zap.NewDevelopment()
-
 			mockCtrl := gomock.NewController(t)
 			defer mockCtrl.Finish()
 
@@ -66,7 +62,7 @@ func Test_getRefuellingsByVehicle(t *testing.T) {
 				vs.EXPECT().GetRefuellingsByVehicle(vehicleID).Return(testCfg.refuellingsFromService, testCfg.errorFromService)
 			}
 
-			handler := http.HandlerFunc(newGetRefuellingsByVehicleHandler(vs, logger))
+			handler := http.HandlerFunc(newGetRefuellingsByVehicleHandler(vs, nil))
 			response := httptest.NewRecorder()
 
 			req, err := http.NewRequest("", "", nil)
