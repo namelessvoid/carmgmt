@@ -11,7 +11,7 @@ import (
 	"github.com/gorilla/mux"
 
 	"github.com/namelessvoid/carmgmt/internal/pkg/domain"
-	mock_domain "github.com/namelessvoid/carmgmt/internal/pkg/domain/mocks"
+	domain_mock "github.com/namelessvoid/carmgmt/internal/pkg/domain/mock"
 
 	"github.com/golang/mock/gomock"
 )
@@ -56,7 +56,7 @@ func Test_getRefuellingsByVehicle(t *testing.T) {
 			mockCtrl := gomock.NewController(t)
 			defer mockCtrl.Finish()
 
-			vs := mock_domain.NewMockVehicleService(mockCtrl)
+			vs := domain_mock.NewMockVehicleService(mockCtrl)
 			vehicleID, err := strconv.Atoi(testCfg.requestVehicleID)
 			if err == nil {
 				vs.EXPECT().GetRefuellingsByVehicle(vehicleID).Return(testCfg.refuellingsFromService, testCfg.errorFromService)

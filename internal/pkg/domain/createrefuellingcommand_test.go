@@ -1,81 +1,83 @@
-package domain
+package domain_test
 
 import (
 	"errors"
 	"testing"
 	"time"
+
+	domain "github.com/namelessvoid/carmgmt/internal/pkg/domain"
 )
 
 func Test_CreateRefuellingCommand_Validate(t *testing.T) {
 	tests := []struct {
 		name          string
-		command       CreateRefuellingCommand
+		command       domain.CreateRefuellingCommand
 		expectedError error
 	}{
 		{
 			name:          "All parameters are correct",
-			command:       NewCreateRefuellingCommandBuilder().build(),
+			command:       domain.NewCreateRefuellingCommandBuilder().Build(),
 			expectedError: nil,
 		}, {
 			name:          "VehicleID is null",
-			command:       NewCreateRefuellingCommandBuilder().withNilVehicleID().build(),
+			command:       domain.NewCreateRefuellingCommandBuilder().WithNilVehicleID().Build(),
 			expectedError: errors.New("CreateRefuellingCommand.VehicleID must not be null"),
 		},
 		{
 			name:          "Amount is nil",
-			command:       NewCreateRefuellingCommandBuilder().withNilAmount().build(),
+			command:       domain.NewCreateRefuellingCommandBuilder().WithNilAmount().Build(),
 			expectedError: errors.New("CreateRefuellingCommand.Amount must not be null and must be greater than zero"),
 		},
 		{
 			name:          "Amount is zero",
-			command:       NewCreateRefuellingCommandBuilder().withAmount(0).build(),
+			command:       domain.NewCreateRefuellingCommandBuilder().WithAmount(0).Build(),
 			expectedError: errors.New("CreateRefuellingCommand.Amount must not be null and must be greater than zero"),
 		},
 		{
 			name:          "Price is nil",
-			command:       NewCreateRefuellingCommandBuilder().withNilPrice().build(),
+			command:       domain.NewCreateRefuellingCommandBuilder().WithNilPrice().Build(),
 			expectedError: errors.New("CreateRefuellingCommand.Price must not be null and must be greater than zero"),
 		},
 		{
 			name:          "Price is zero",
-			command:       NewCreateRefuellingCommandBuilder().withPrice(0).build(),
+			command:       domain.NewCreateRefuellingCommandBuilder().WithPrice(0).Build(),
 			expectedError: errors.New("CreateRefuellingCommand.Price must not be null and must be greater than zero"),
 		},
 		{
 			name:          "PricePerLiter is nil",
-			command:       NewCreateRefuellingCommandBuilder().withNilPricePerLiter().build(),
+			command:       domain.NewCreateRefuellingCommandBuilder().WithNilPricePerLiter().Build(),
 			expectedError: errors.New("CreateRefuellingCommand.PricePerLiter must not be null and must be greater than zero"),
 		},
 		{
 			name:          "PricePerLiter is zero",
-			command:       NewCreateRefuellingCommandBuilder().withPricePerLiter(0).build(),
+			command:       domain.NewCreateRefuellingCommandBuilder().WithPricePerLiter(0).Build(),
 			expectedError: errors.New("CreateRefuellingCommand.PricePerLiter must not be null and must be greater than zero"),
 		},
 		{
 			name:          "Time is nil",
-			command:       NewCreateRefuellingCommandBuilder().withNilTime().build(),
+			command:       domain.NewCreateRefuellingCommandBuilder().WithNilTime().Build(),
 			expectedError: errors.New("CreateRefuellingCommand.Time must not be null and must be in UTC"),
 		},
 		{
 			name:          "Time is not in UTC",
-			command:       NewCreateRefuellingCommandBuilder().withTime(time.Date(2034, 12, 3, 22, 30, 12, 0, &time.Location{})).build(),
+			command:       domain.NewCreateRefuellingCommandBuilder().WithTime(time.Date(2034, 12, 3, 22, 30, 12, 0, &time.Location{})).Build(),
 			expectedError: errors.New("CreateRefuellingCommand.Time must not be null and must be in UTC"),
 		},
 		{
 			name:          "Kilometers is nil",
-			command:       NewCreateRefuellingCommandBuilder().withNilKilometers().build(),
+			command:       domain.NewCreateRefuellingCommandBuilder().WithNilKilometers().Build(),
 			expectedError: errors.New("CreateRefuellingCommand.Kilometers must not be null and must be greater than zero"),
 		},
 		{
 			name:          "Kilometers is zero",
-			command:       NewCreateRefuellingCommandBuilder().withKilometers(0).build(),
+			command:       domain.NewCreateRefuellingCommandBuilder().WithKilometers(0).Build(),
 			expectedError: errors.New("CreateRefuellingCommand.Kilometers must not be null and must be greater than zero"),
 		},
 	}
 
 	for _, run := range tests {
 		t.Run(run.name, func(t *testing.T) {
-			err := run.command.validate()
+			err := run.command.Validate()
 
 			if err == nil && run.expectedError != nil {
 				t.Errorf("validate() returned no error: want '%v'", run.expectedError)

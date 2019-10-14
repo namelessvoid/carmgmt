@@ -10,7 +10,7 @@ import (
 
 	"github.com/golang/mock/gomock"
 	"github.com/namelessvoid/carmgmt/internal/pkg/domain"
-	mock_domain "github.com/namelessvoid/carmgmt/internal/pkg/domain/mocks"
+	domain_mock "github.com/namelessvoid/carmgmt/internal/pkg/domain/mock"
 )
 
 func TestCreateVehicle(t *testing.T) {
@@ -57,7 +57,7 @@ func TestCreateVehicle(t *testing.T) {
 			mockCtrl := gomock.NewController(t)
 			defer mockCtrl.Finish()
 
-			vs := mock_domain.NewMockVehicleService(mockCtrl)
+			vs := domain_mock.NewMockVehicleService(mockCtrl)
 			if testCfg.serviceIsCalled {
 				vs.EXPECT().CreateVehicle(testCfg.vehicleName).Return(testCfg.vehicleFromService, testCfg.errorFromService)
 			}

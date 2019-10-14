@@ -22,61 +22,61 @@ func NewCreateRefuellingCommandBuilder() createRefuellingCommandBuilder {
 	}
 }
 
-func (cb createRefuellingCommandBuilder) build() CreateRefuellingCommand {
+func (cb createRefuellingCommandBuilder) Build() CreateRefuellingCommand {
 	return cb.CreateRefuellingCommand
 }
 
-func (cb createRefuellingCommandBuilder) withNilVehicleID() createRefuellingCommandBuilder {
+func (cb createRefuellingCommandBuilder) WithNilVehicleID() createRefuellingCommandBuilder {
 	cb.VehicleID = nil
 	return cb
 }
 
-func (cb createRefuellingCommandBuilder) withNilAmount() createRefuellingCommandBuilder {
+func (cb createRefuellingCommandBuilder) WithNilAmount() createRefuellingCommandBuilder {
 	cb.Amount = nil
 	return cb
 }
 
-func (cb createRefuellingCommandBuilder) withAmount(a float32) createRefuellingCommandBuilder {
+func (cb createRefuellingCommandBuilder) WithAmount(a float32) createRefuellingCommandBuilder {
 	cb.Amount = &a
 	return cb
 }
 
-func (cb createRefuellingCommandBuilder) withNilPrice() createRefuellingCommandBuilder {
+func (cb createRefuellingCommandBuilder) WithNilPrice() createRefuellingCommandBuilder {
 	cb.Price = nil
 	return cb
 }
 
-func (cb createRefuellingCommandBuilder) withPrice(p float32) createRefuellingCommandBuilder {
+func (cb createRefuellingCommandBuilder) WithPrice(p float32) createRefuellingCommandBuilder {
 	cb.Price = &p
 	return cb
 }
 
-func (cb createRefuellingCommandBuilder) withNilPricePerLiter() createRefuellingCommandBuilder {
+func (cb createRefuellingCommandBuilder) WithNilPricePerLiter() createRefuellingCommandBuilder {
 	cb.PricePerLiter = nil
 	return cb
 }
 
-func (cb createRefuellingCommandBuilder) withPricePerLiter(p float32) createRefuellingCommandBuilder {
+func (cb createRefuellingCommandBuilder) WithPricePerLiter(p float32) createRefuellingCommandBuilder {
 	cb.PricePerLiter = &p
 	return cb
 }
 
-func (cb createRefuellingCommandBuilder) withNilTime() createRefuellingCommandBuilder {
+func (cb createRefuellingCommandBuilder) WithNilTime() createRefuellingCommandBuilder {
 	cb.Time = nil
 	return cb
 }
 
-func (cb createRefuellingCommandBuilder) withTime(t time.Time) createRefuellingCommandBuilder {
+func (cb createRefuellingCommandBuilder) WithTime(t time.Time) createRefuellingCommandBuilder {
 	cb.Time = &t
 	return cb
 }
 
-func (cb createRefuellingCommandBuilder) withNilKilometers() createRefuellingCommandBuilder {
+func (cb createRefuellingCommandBuilder) WithNilKilometers() createRefuellingCommandBuilder {
 	cb.Kilometers = nil
 	return cb
 }
 
-func (cb createRefuellingCommandBuilder) withKilometers(p float32) createRefuellingCommandBuilder {
+func (cb createRefuellingCommandBuilder) WithKilometers(p float32) createRefuellingCommandBuilder {
 	cb.Kilometers = &p
 	return cb
 }

@@ -14,7 +14,7 @@ type CreateRefuellingCommand struct {
 	Kilometers    *float32   `json:"kilometers"`
 }
 
-func (c CreateRefuellingCommand) validate() error {
+func (c CreateRefuellingCommand) Validate() error {
 	if c.VehicleID == nil {
 		return errors.New("CreateRefuellingCommand.VehicleID must not be null")
 	}

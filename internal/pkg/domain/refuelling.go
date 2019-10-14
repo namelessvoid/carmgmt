@@ -14,7 +14,7 @@ type Refuelling struct {
 }
 
 func NewRefuelling(cmd CreateRefuellingCommand) (Refuelling, error) {
-	err := cmd.validate()
+	err := cmd.Validate()
 	if err != nil {
 		return Refuelling{}, err
 	}

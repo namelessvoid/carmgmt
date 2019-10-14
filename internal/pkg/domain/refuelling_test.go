@@ -1,33 +1,35 @@
-package domain
+package domain_test
 
 import (
 	"testing"
+
+	domain "github.com/namelessvoid/carmgmt/internal/pkg/domain"
 )
 
 func Test_NewRefuelling(t *testing.T) {
 	tests := []struct {
 		name               string
-		command            CreateRefuellingCommand
-		expectedRefuelling Refuelling
+		command            domain.CreateRefuellingCommand
+		expectedRefuelling domain.Refuelling
 		expectesError      bool
 	}{
 		{
 			name:               "Command is invalid",
-			command:            NewCreateRefuellingCommandBuilder().withNilAmount().build(),
-			expectedRefuelling: Refuelling{},
+			command:            domain.NewCreateRefuellingCommandBuilder().WithNilAmount().Build(),
+			expectedRefuelling: domain.Refuelling{},
 			expectesError:      true,
 		},
 		{
 			name:               "Command is valid",
-			command:            NewCreateRefuellingCommandBuilder().build(),
-			expectedRefuelling: NewRefuellingTestBuilder().Build(),
+			command:            domain.NewCreateRefuellingCommandBuilder().Build(),
+			expectedRefuelling: domain.NewRefuellingTestBuilder().Build(),
 			expectesError:      false,
 		},
 	}
 
 	for _, run := range tests {
 		t.Run(run.name, func(t *testing.T) {
-			r, err := NewRefuelling(run.command)
+			r, err := domain.NewRefuelling(run.command)
 
 			if r != run.expectedRefuelling {
 				t.Errorf("NewRefuelling() returned incorrect Refuelling: got '%v' want '%v'", r, run.expectedRefuelling)

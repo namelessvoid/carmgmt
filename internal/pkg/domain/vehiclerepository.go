@@ -35,7 +35,7 @@ func (repo *vehicleRepository) GetAllVehicles() ([]Vehicle, error) {
 
 func (repo *vehicleRepository) GetVehicleByID(vehicleID int) (Vehicle, error) {
 	if !repo.doesVehicleExist(vehicleID) {
-		return Vehicle{}, fmt.Errorf("Vehicle with id '%i' does not exist", vehicleID)
+		return Vehicle{}, fmt.Errorf("Vehicle with id '%d' does not exist", vehicleID)
 	}
 
 	return repo.vehicles[vehicleID], nil
@@ -49,7 +49,7 @@ func (repo *vehicleRepository) CreateRefuelling(refuelling Refuelling) (Refuelli
 
 func (repo *vehicleRepository) GetRefuellingsByVehicleID(vehicleID int) ([]Refuelling, error) {
 	if !repo.doesVehicleExist(vehicleID) {
-		return nil, fmt.Errorf("Vehicle with id '%i' does not exist", vehicleID)
+		return nil, fmt.Errorf("Vehicle with id '%d' does not exist", vehicleID)
 	}
 
 	vehicleRefuellings := []Refuelling{}
