@@ -2,6 +2,7 @@ package domain_test
 
 import (
 	"errors"
+	"reflect"
 	"testing"
 
 	"github.com/golang/mock/gomock"
@@ -73,4 +74,60 @@ func Test_VehicleService_CreateRefuelling(t *testing.T) {
 			}
 		})
 	}
+}
+
+func Test_VehicleService_GetRefuellingsByVehicle(t *testing.T) {
+	t.Run("Repository returns result", func(t *testing.T) {
+		mockCtrl := gomock.NewController(t)
+		defer mockCtrl.Finish()
+
+		vehicleID := 12
+		expectedRefuellings := []domain.Refuelling{
+			domain.NewRefuellingTestBuilder().WithID(13).Build(),
+			domain.NewRefuellingTestBuilder().WithID(14).Build()}
+		var expectedError error = nil
+
+		refuellingsFromRepo := make([]domain.Refuelling, len(expectedRefuellings))
+		copy(refuellingsFromRepo, expectedRefuellings)
+
+		vr := domain_mock.NewMockVehicleRepository(mockCtrl)
+		vr.EXPECT().GetRefuellingsByVehicleID(vehicleID).Return(refuellingsFromRepo, expectedError)
+
+		vs := domain.NewVehicleService(vr, nil)
+
+		actualRefuellings, actualError := vs.GetRefuellingsByVehicle(vehicleID)
+
+		if actualError != nil {
+			t.Errorf("VehicleService returned unexpected error: got %v want no error", actualError)
+		}
+
+		if !reflect.DeepEqual(actualRefuellings, expectedRefuellings) {
+			t.Errorf("VehicleService returned incorrect refuellings: got %v want %v", actualRefuellings, expectedRefuellings)
+		}
+	})
+
+	t.Run("Repository returns error", func(t *testing.T) {
+		mockCtrl := gomock.NewController(t)
+		defer mockCtrl.Finish()
+
+		vehicleID := 12
+
+		refuelingsFromRepo := []domain.Refuelling{domain.NewRefuellingTestBuilder().Build()}
+		expectedError := errors.New("Some error")
+
+		vr := domain_mock.NewMockVehicleRepository(mockCtrl)
+		vr.EXPECT().GetRefuellingsByVehicleID(vehicleID).Return(refuelingsFromRepo, expectedError)
+
+		vs := domain.NewVehicleService(vr, nil)
+
+		actualRefuellings, actualError := vs.GetRefuellingsByVehicle(vehicleID)
+
+		if len(actualRefuellings) != 0 {
+			t.Errorf("VehicleService returned non empty vehicle slice: got %v want []", actualRefuellings)
+		}
+
+		if actualError != expectedError {
+			t.Errorf("VehicleService returned unexpected error: got '%v' want '%v'", actualError, expectedError)
+		}
+	})
 }

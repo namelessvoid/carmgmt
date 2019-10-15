@@ -51,5 +51,10 @@ func (vs *vehicleService) CreateRefuelling(cmd CreateRefuellingCommand) (Refuell
 }
 
 func (vs *vehicleService) GetRefuellingsByVehicle(vehicleID int) ([]Refuelling, error) {
-	return vs.repo.GetRefuellingsByVehicleID(vehicleID)
+	rs, err := vs.repo.GetRefuellingsByVehicleID(vehicleID)
+	if err != nil {
+		return []Refuelling{}, err
+	}
+
+	return rs, nil
 }
