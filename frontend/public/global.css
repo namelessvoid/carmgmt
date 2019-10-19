@@ -77,6 +77,10 @@ button:focus {
 	min-width: 0;
 }
 
+input.invalid {
+	border-color: red;
+}
+
 .table > tr:hover > td {
 	background-color: rgba(144, 238, 144, 0.5);
 }

@@ -38,12 +38,12 @@
     </tr>
     {#each refuellings as refuelling}
     <tr>
-        <td>{refuelling.time}</td>
-        <td>{refuelling.kilometers} km</td>
-        <td>{refuelling.amount} L</td>
-        <td>{refuelling.price} €</td>
-        <td>{refuelling.pricePerLiter} €/L</td>
-        <td>tdb</td>
+        <td>{$_.date(Date.parse(refuelling.time), 'short')}</td>
+        <td>{$_.number(refuelling.kilometers)} km</td>
+        <td>{$_.number(refuelling.amount)} L</td>
+        <td>{$_.number(refuelling.price)} €</td>
+        <td>{$_.number(refuelling.pricePerLiter)} €/L</td>
+        <td>{$_.number(refuelling.consumption)} L/100km</td>
     </tr>
     {/each}
 </table>

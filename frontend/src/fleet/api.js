@@ -65,7 +65,7 @@ export async function addRefuellingToVehicle(vehicleId, refuelling) {
 
 export function formToJson(form) {
     let obj = {};
-    const formData = new FormData(event.target);
+    const formData = new FormData(form);
     formData.forEach((value, key) => {
         obj[key] = value;
     });
