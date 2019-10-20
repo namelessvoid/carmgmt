@@ -46,6 +46,15 @@ describe('AddVehicle', () => {
         expect(eventListener).toHaveBeenCalled();        
     });
 
+    test('should reset form after adding vehicle successfully', async () => {
+        render(AddVehicle);
+
+        await fireEvent.input(nameInput(), {target: {value: 'Some Name'}});
+        await fireEvent.click(submitButton());
+
+        expect(nameInput().value).toBe("");
+    });
+
     test('should not add vehicle when vehicle name is empty', async () => {
         render(AddVehicle)
 
