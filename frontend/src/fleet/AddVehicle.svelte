@@ -4,7 +4,7 @@
 
     import Info from '../Info.svelte';
 
-    import { addVehicle, formToJson } from './api';
+    import { addVehicle } from './api';
 
     let infos = [];
     let vehicle = null;

@@ -24,29 +24,29 @@ describe('AddVehicle', () => {
 
     afterEach(cleanup);
 
-    test('should add vehicle when valid form is submitted', async () => {
+    it('should add vehicle when valid form is submitted', async () => {
         render(AddVehicle);
 
-        await fireEvent.input(nameInput(),  {target: {value: 'Some Name'}});
+        await fireEvent.input(nameInput(), {target: {value: 'Some Name'}});
         await fireEvent.click(submitButton());
 
         expect(addVehicle).toHaveBeenCalledWith({'name': 'Some Name'})
     });
 
-    test('should emit vehicleAdded event after adding vehicle successfully', async () => {
+    it('should emit vehicleAdded event after adding vehicle successfully', async () => {
         const eventListener = jest.fn();
 
         const { component } = render(AddVehicle);
 
         component.$on('vehicleAdded', eventListener);
 
-        await fireEvent.input(nameInput(),  {target: {value: 'Some Name'}});
+        await fireEvent.input(nameInput(), {target: {value: 'Some Name'}});
         await fireEvent.click(submitButton());
 
         expect(eventListener).toHaveBeenCalled();        
     });
 
-    test('should reset form after adding vehicle successfully', async () => {
+    it('should reset form after adding vehicle successfully', async () => {
         render(AddVehicle);
 
         await fireEvent.input(nameInput(), {target: {value: 'Some Name'}});
@@ -55,7 +55,7 @@ describe('AddVehicle', () => {
         expect(nameInput().value).toBe("");
     });
 
-    test('should not add vehicle when vehicle name is empty', async () => {
+    it('should not add vehicle when vehicle name is empty', async () => {
         render(AddVehicle)
 
         await fireEvent.click(submitButton());
@@ -64,13 +64,13 @@ describe('AddVehicle', () => {
         expect(nameInput().classList).toContain('invalid');
     });
 
-    test('should not display name as invalid initially', () => {
+    it('should not display name as invalid initially', () => {
         render(AddVehicle);
 
         expect(nameInput().classList).not.toContain('invalid');
     });
 
-    test('should not display name as invalid when name is valid', async () => {
+    it('should not display name as invalid when name is valid', async () => {
         render(AddVehicle);
         
         await fireEvent.input(nameInput(),  {target: {value: 'Some Name'}});
@@ -78,7 +78,7 @@ describe('AddVehicle', () => {
         expect(nameInput().classList).not.toContain('invalid');
     });
 
-    test('should highlight invalid name', async () => {
+    it('should highlight invalid name', async () => {
         render(AddVehicle);
 
         await fireEvent.input(nameInput(),  {target: {value: ''}});
