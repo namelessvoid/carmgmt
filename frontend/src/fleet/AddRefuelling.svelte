@@ -10,7 +10,7 @@
     export let vehicleId;
 
     let refuelling = {
-        time: new Date(),
+        time: null,
         tripKilometers: null,
         amount: null,
         price: null,
@@ -111,7 +111,7 @@
 <form class="form" on:submit|preventDefault={handleSubmit} novalidate>
     <div class="form-row">
         <label>{$_('fleet.refuelling.time')}</label>
-        <DatePicker value={refuelling.time} on:changed={(e) => setTime(e.detail)} />
+        <DatePicker on:changed={(e) => setTime(e.detail)} />
     </div>
 
     <div class="form-row">

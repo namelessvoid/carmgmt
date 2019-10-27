@@ -1,7 +1,7 @@
 <script>
     import { onMount, createEventDispatcher } from 'svelte';
 
-    export let value;
+    export let value = new Date();
     value.setSeconds(0);
     value.setMilliseconds(0);
 
