@@ -65,13 +65,13 @@ func Test_CreateRefuellingCommand_Validate(t *testing.T) {
 		},
 		{
 			name:          "Kilometers is nil",
-			command:       domain.NewCreateRefuellingCommandBuilder().WithNilKilometers().Build(),
-			expectedError: errors.New("CreateRefuellingCommand.Kilometers must not be null and must be greater than zero"),
+			command:       domain.NewCreateRefuellingCommandBuilder().WithNilTripKilometers().Build(),
+			expectedError: errors.New("CreateRefuellingCommand.TripKilometers must not be null and must be greater than zero"),
 		},
 		{
 			name:          "Kilometers is zero",
-			command:       domain.NewCreateRefuellingCommandBuilder().WithKilometers(0).Build(),
-			expectedError: errors.New("CreateRefuellingCommand.Kilometers must not be null and must be greater than zero"),
+			command:       domain.NewCreateRefuellingCommandBuilder().WithTripKilometers(0).Build(),
+			expectedError: errors.New("CreateRefuellingCommand.TripKilometers must not be null and must be greater than zero"),
 		},
 	}
 

@@ -25,20 +25,20 @@ describe('AddRefuelling', () => {
     const submitButton = () => document.querySelector('input[type=submit]');
 
     const fillInForm = async (formData) => {
-        await await fireEvent.change(dateInput(), {target: {value: formData.date}});
-        await await fireEvent.change(timeInput(), {target: {value: formData.time}});
+        await fireEvent.change(dateInput(), {target: {value: formData.date}});
+        await fireEvent.change(timeInput(), {target: {value: formData.time}});
 
         if(formData.tripKilometers !== undefined)
-            await await fireEvent.input(tripKilometersInput(), {target: {value: formData.tripKilometers}});
+            await fireEvent.input(tripKilometersInput(), {target: {value: formData.tripKilometers}});
 
         if(formData.amount !== undefined)
-            await await fireEvent.input(amountInput(), {target: {value: formData.amount}});
+            await fireEvent.input(amountInput(), {target: {value: formData.amount}});
         
         if(formData.price !== undefined)
-            await await fireEvent.input(priceInput(), {target: {value: formData.price}});
+            await fireEvent.input(priceInput(), {target: {value: formData.price}});
 
         if(formData.pricePerLiter !== undefined)
-            await await fireEvent.input(pricePerLiterInput(), {target: {value: formData.pricePerLiter}});
+            await fireEvent.input(pricePerLiterInput(), {target: {value: formData.pricePerLiter}});
     }
 
     const validFormData = {
@@ -51,7 +51,7 @@ describe('AddRefuelling', () => {
     };
 
     const validRefuelling = {
-        date: (new Date('2010-12-24T03:04:00')).toISOString(),
+        time: (new Date('2010-12-24T03:04:00')).toISOString(),
         tripKilometers: validFormData.tripKilometers,
         amount: validFormData.amount,
         price: validFormData.price,

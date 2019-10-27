@@ -22,12 +22,12 @@ func TestCreateRefuellingHandler(t *testing.T) {
 	timePtr := func(t time.Time) *time.Time { return &t }
 
 	command := domain.CreateRefuellingCommand{
-		VehicleID:     intPtr(200),
-		Amount:        floatPtr(30.5),
-		Price:         floatPtr(60.47),
-		PricePerLiter: floatPtr(1.67),
-		Time:          timePtr(time.Date(1994, 11, 5, 13, 15, 30, 0, time.UTC)),
-		Kilometers:    floatPtr(823.12),
+		VehicleID:      intPtr(200),
+		Amount:         floatPtr(30.5),
+		Price:          floatPtr(60.47),
+		PricePerLiter:  floatPtr(1.67),
+		Time:           timePtr(time.Date(1994, 11, 5, 13, 15, 30, 0, time.UTC)),
+		TripKilometers: floatPtr(823.12),
 	}
 
 	tests := []struct {
@@ -52,7 +52,7 @@ func TestCreateRefuellingHandler(t *testing.T) {
 		expectedResponseBody: "[\"error.invalidJson\"]"}, {
 		//
 		name:                  "VehicleService returns error",
-		requestBody:           strings.NewReader("{\"amount\":30.5,\"price\":60.47,\"pricePerLiter\":1.67,\"time\":\"1994-11-05T13:15:30Z\",\"kilometers\":823.12}"),
+		requestBody:           strings.NewReader("{\"amount\":30.5,\"price\":60.47,\"pricePerLiter\":1.67,\"time\":\"1994-11-05T13:15:30Z\",\"tripKilometers\":823.12}"),
 		expectServiceCall:     true,
 		expectedCreateCommand: command,
 		refuellingFromService: domain.Refuelling{},
@@ -61,13 +61,13 @@ func TestCreateRefuellingHandler(t *testing.T) {
 		expectedResponseBody:  "[\"error.unknown\"]"}, {
 		//
 		name:                  "Refuelling created successfully",
-		requestBody:           strings.NewReader("{\"amount\":30.5,\"price\":60.47,\"pricePerLiter\":1.67,\"time\":\"1994-11-05T13:15:30Z\",\"kilometers\":823.12}"),
+		requestBody:           strings.NewReader("{\"amount\":30.5,\"price\":60.47,\"pricePerLiter\":1.67,\"time\":\"1994-11-05T13:15:30Z\",\"tripKilometers\":823.12}"),
 		expectServiceCall:     true,
 		expectedCreateCommand: command,
-		refuellingFromService: domain.Refuelling{ID: 10, VehicleID: 200, Amount: 30.5, Price: 60.47, PricePerLiter: 1.67, Time: time.Date(1994, 11, 5, 13, 15, 30, 0, time.UTC), Kilometers: 823.12, Consumption: 12.12},
+		refuellingFromService: domain.Refuelling{ID: 10, VehicleID: 200, Amount: 30.5, Price: 60.47, PricePerLiter: 1.67, Time: time.Date(1994, 11, 5, 13, 15, 30, 0, time.UTC), TripKilometers: 823.12, Consumption: 12.12},
 		errorFromService:      nil,
 		expectedResponseCode:  http.StatusOK,
-		expectedResponseBody:  "{\"id\":10,\"vehicleId\":200,\"amount\":30.5,\"price\":60.47,\"pricePerLiter\":1.67,\"time\":\"1994-11-05T13:15:30Z\",\"kilometers\":823.12,\"consumption\":12.12}"},
+		expectedResponseBody:  "{\"id\":10,\"vehicleId\":200,\"amount\":30.5,\"price\":60.47,\"pricePerLiter\":1.67,\"time\":\"1994-11-05T13:15:30Z\",\"tripKilometers\":823.12,\"consumption\":12.12}"},
 	}
 	for _, testCfg := range tests {
 		t.Run(testCfg.name, func(t *testing.T) {

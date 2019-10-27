@@ -10,7 +10,7 @@
     export let vehicleId;
 
     let refuelling = {
-        date: new Date(),
+        time: new Date(),
         tripKilometers: null,
         amount: null,
         price: null,
@@ -18,7 +18,7 @@
     };
 
     let validation = {
-        date: null,
+        time: null,
         tripKilometers: null,
         amount: null,
         price: null,
@@ -34,7 +34,7 @@
     
         const json = {
             ...refuelling,
-            date: refuelling.date.toISOString()
+            time: refuelling.time.toISOString()
         };
 
         try {
@@ -49,21 +49,21 @@
     }
 
     function validateForm() {
-        validateDate();
+        validateTime();
         validateTripKilometers();
         validateAmount();
         validatePrice();
         validatePricePerLiter();
 
-        return validation.date
+        return validation.time
             && validation.tripKilometers
             && validation.amount
             && validation.price
             && validation.pricePerLiter;
     }
 
-    function validateDate() {
-        validation.date = refuelling.date.toString() != 'Invalid Date';
+    function validateTime() {
+        validation.time = refuelling.time.toString() != 'Invalid Date';
     }
 
     function validateTripKilometers() {
@@ -82,9 +82,9 @@
         validation.pricePerLiter = refuelling.pricePerLiter !== null && !isNaN(refuelling.pricePerLiter);
     }
 
-    function setDate(date) {
-        refuelling.date = date;
-        validateDate();
+    function setTime(date) {
+        refuelling.time = date;
+        validateTime();
     }
 
     function setTripKilometers(tripKilometers) {
@@ -110,8 +110,8 @@
 
 <form class="form" on:submit|preventDefault={handleSubmit} novalidate>
     <div class="form-row">
-        <label for="time">{$_('fleet.refuelling.time')}</label>
-        <DatePicker value={refuelling.date} on:changed={(e) => setDate(e.detail)} />
+        <label>{$_('fleet.refuelling.time')}</label>
+        <DatePicker value={refuelling.time} on:changed={(e) => setTime(e.detail)} />
     </div>
 
     <div class="form-row">

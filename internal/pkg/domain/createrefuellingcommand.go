@@ -6,12 +6,12 @@ import (
 )
 
 type CreateRefuellingCommand struct {
-	VehicleID     *int       `json:"vehicleId"`
-	Amount        *float32   `json:"amount"`
-	Price         *float32   `json:"price"`
-	PricePerLiter *float32   `json:"pricePerLiter"`
-	Time          *time.Time `json:"time"`
-	Kilometers    *float32   `json:"kilometers"`
+	VehicleID      *int       `json:"vehicleId"`
+	Amount         *float32   `json:"amount"`
+	Price          *float32   `json:"price"`
+	PricePerLiter  *float32   `json:"pricePerLiter"`
+	Time           *time.Time `json:"time"`
+	TripKilometers *float32   `json:"tripKilometers"`
 }
 
 func (c CreateRefuellingCommand) Validate() error {
@@ -35,8 +35,8 @@ func (c CreateRefuellingCommand) Validate() error {
 		return errors.New("CreateRefuellingCommand.Time must not be null and must be in UTC")
 	}
 
-	if c.Kilometers == nil || *c.Kilometers <= 0 {
-		return errors.New("CreateRefuellingCommand.Kilometers must not be null and must be greater than zero")
+	if c.TripKilometers == nil || *c.TripKilometers <= 0 {
+		return errors.New("CreateRefuellingCommand.TripKilometers must not be null and must be greater than zero")
 	}
 
 	return nil

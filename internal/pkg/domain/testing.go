@@ -13,12 +13,12 @@ func NewCreateRefuellingCommandBuilder() createRefuellingCommandBuilder {
 
 	return createRefuellingCommandBuilder{
 		CreateRefuellingCommand{
-			VehicleID:     intPtr(1),
-			Amount:        floatPtr(2.2),
-			Price:         floatPtr(3.3),
-			PricePerLiter: floatPtr(4.4),
-			Time:          timePtr(time.Date(2035, 3, 20, 0, 44, 12, 0, time.UTC)),
-			Kilometers:    floatPtr(5.5)},
+			VehicleID:      intPtr(1),
+			Amount:         floatPtr(2.2),
+			Price:          floatPtr(3.3),
+			PricePerLiter:  floatPtr(4.4),
+			Time:           timePtr(time.Date(2035, 3, 20, 0, 44, 12, 0, time.UTC)),
+			TripKilometers: floatPtr(5.5)},
 	}
 }
 
@@ -71,13 +71,13 @@ func (cb createRefuellingCommandBuilder) WithTime(t time.Time) createRefuellingC
 	return cb
 }
 
-func (cb createRefuellingCommandBuilder) WithNilKilometers() createRefuellingCommandBuilder {
-	cb.Kilometers = nil
+func (cb createRefuellingCommandBuilder) WithNilTripKilometers() createRefuellingCommandBuilder {
+	cb.TripKilometers = nil
 	return cb
 }
 
-func (cb createRefuellingCommandBuilder) WithKilometers(p float32) createRefuellingCommandBuilder {
-	cb.Kilometers = &p
+func (cb createRefuellingCommandBuilder) WithTripKilometers(p float32) createRefuellingCommandBuilder {
+	cb.TripKilometers = &p
 	return cb
 }
 
@@ -87,13 +87,13 @@ type refuellingTestBuilder struct {
 
 func NewRefuellingTestBuilder() refuellingTestBuilder {
 	return refuellingTestBuilder{Refuelling{
-		VehicleID:     1,
-		Amount:        2.2,
-		Price:         3.3,
-		PricePerLiter: 4.4,
-		Time:          time.Date(2035, 3, 20, 0, 44, 12, 0, time.UTC),
-		Kilometers:    5.5,
-		Consumption:   40}}
+		VehicleID:      1,
+		Amount:         2.2,
+		Price:          3.3,
+		PricePerLiter:  4.4,
+		Time:           time.Date(2035, 3, 20, 0, 44, 12, 0, time.UTC),
+		TripKilometers: 5.5,
+		Consumption:    40}}
 }
 
 func (rb refuellingTestBuilder) WithID(id int) refuellingTestBuilder {

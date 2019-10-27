@@ -35,10 +35,10 @@ func Test_getRefuellingsByVehicle(t *testing.T) {
 		//
 		name:                   "Refuellings are returned from VehicleService",
 		requestVehicleID:       "20",
-		refuellingsFromService: []domain.Refuelling{{ID: 1, VehicleID: 20, Amount: 30.0, Price: 40.0, PricePerLiter: 50.0, Time: time.Date(1994, 3, 12, 13, 14, 15, 0, time.UTC), Kilometers: 70, Consumption: 80}, {ID: 2, VehicleID: 20, Amount: 33.0, Price: 44.0, PricePerLiter: 55.0, Time: time.Date(1996, 3, 12, 13, 14, 15, 0, time.UTC), Kilometers: 77, Consumption: 88}},
+		refuellingsFromService: []domain.Refuelling{{ID: 1, VehicleID: 20, Amount: 30.0, Price: 40.0, PricePerLiter: 50.0, Time: time.Date(1994, 3, 12, 13, 14, 15, 0, time.UTC), TripKilometers: 70, Consumption: 80}, {ID: 2, VehicleID: 20, Amount: 33.0, Price: 44.0, PricePerLiter: 55.0, Time: time.Date(1996, 3, 12, 13, 14, 15, 0, time.UTC), TripKilometers: 77, Consumption: 88}},
 		errorFromService:       nil,
 		expectedResponseCode:   http.StatusOK,
-		expectedResponseBody:   "[{\"id\":1,\"vehicleId\":20,\"amount\":30,\"price\":40,\"pricePerLiter\":50,\"time\":\"1994-03-12T13:14:15Z\",\"kilometers\":70,\"consumption\":80},{\"id\":2,\"vehicleId\":20,\"amount\":33,\"price\":44,\"pricePerLiter\":55,\"time\":\"1996-03-12T13:14:15Z\",\"kilometers\":77,\"consumption\":88}]"}, {
+		expectedResponseBody:   "[{\"id\":1,\"vehicleId\":20,\"amount\":30,\"price\":40,\"pricePerLiter\":50,\"time\":\"1994-03-12T13:14:15Z\",\"tripKilometers\":70,\"consumption\":80},{\"id\":2,\"vehicleId\":20,\"amount\":33,\"price\":44,\"pricePerLiter\":55,\"time\":\"1996-03-12T13:14:15Z\",\"tripKilometers\":77,\"consumption\":88}]"}, {
 		//
 		name:                   "VehicleService returns error",
 		requestVehicleID:       "20",

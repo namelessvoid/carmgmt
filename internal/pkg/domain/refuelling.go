@@ -3,14 +3,14 @@ package domain
 import "time"
 
 type Refuelling struct {
-	ID            int       `json:"id"`
-	VehicleID     int       `json:"vehicleId"`
-	Amount        float32   `json:"amount"`
-	Price         float32   `json:"price"`
-	PricePerLiter float32   `json:"pricePerLiter"`
-	Time          time.Time `json:"time"`
-	Kilometers    float32   `json:"kilometers"`
-	Consumption   float32   `json:"consumption"`
+	ID             int       `json:"id"`
+	VehicleID      int       `json:"vehicleId"`
+	Amount         float32   `json:"amount"`
+	Price          float32   `json:"price"`
+	PricePerLiter  float32   `json:"pricePerLiter"`
+	Time           time.Time `json:"time"`
+	TripKilometers float32   `json:"tripKilometers"`
+	Consumption    float32   `json:"consumption"`
 }
 
 func NewRefuelling(cmd CreateRefuellingCommand) (Refuelling, error) {
@@ -19,13 +19,13 @@ func NewRefuelling(cmd CreateRefuellingCommand) (Refuelling, error) {
 		return Refuelling{}, err
 	}
 
-	consumption := 100 * *cmd.Amount / *cmd.Kilometers
+	consumption := 100 * *cmd.Amount / *cmd.TripKilometers
 	return Refuelling{
-		VehicleID:     *cmd.VehicleID,
-		Amount:        *cmd.Amount,
-		Price:         *cmd.Price,
-		PricePerLiter: *cmd.PricePerLiter,
-		Time:          *cmd.Time,
-		Kilometers:    *cmd.Kilometers,
-		Consumption:   consumption}, nil
+		VehicleID:      *cmd.VehicleID,
+		Amount:         *cmd.Amount,
+		Price:          *cmd.Price,
+		PricePerLiter:  *cmd.PricePerLiter,
+		Time:           *cmd.Time,
+		TripKilometers: *cmd.TripKilometers,
+		Consumption:    consumption}, nil
 }
