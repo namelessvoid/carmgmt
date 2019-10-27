@@ -18,7 +18,7 @@ dictionary.set({
                 'price': 'Rechnungsbetrag',
                 'amount': 'Abgabe',
                 'pricePerLiter': 'Preis pro Liter',
-                'kilometers': 'Tripkilometer',
+                'tripKilometers': 'Tripkilometer',
                 'consumption': 'Verbrauch',
                 'emptyList': 'Es sind noch keine Tankvorgänge vorhanden.'
             },
@@ -52,7 +52,7 @@ dictionary.set({
                 'price': 'Price',
                 'amount': 'Amount',
                 'pricePerLiter': 'Price per liter',
-                'kilometers': 'Trip kilometers',
+                'tripKilometers': 'Trip kilometers',
                 'consumption': 'Consumption',
                 'emptyList': 'No refuellings added yet'
             },

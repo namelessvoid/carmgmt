@@ -115,7 +115,7 @@
     </div>
 
     <div class="form-row">
-        <label for="tripKilometers">{$_('fleet.refuelling.kilometers')}</label>
+        <label for="tripKilometers">{$_('fleet.refuelling.tripKilometers')}</label>
         <input type="number" step="any" name="tripKilometers" on:input={(e) => setTripKilometers(e.target.value)} class:invalid={validation.tripKilometers === false}/>
     </div>
 
