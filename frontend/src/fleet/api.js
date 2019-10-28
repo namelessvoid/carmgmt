@@ -1,29 +1,30 @@
 const host = 'http://localhost:8080';
 
-async function handleFetch(fetchPromise) {
+export async function handleFetch(fetchPromise) {
     let response;
 
     try {
         response = await fetchPromise;
     } catch(err) {
-        throw ['error.networkFailure'];
+        console.error(err);
+        throw new Error('error.networkFailure');
     }
 
     if(!response.ok) {
-        let errors = ['error.unknown'];
+        let error = 'error.unknown';
         try {
-            errors = await response.json();
+            error = await response.json();
         } catch(e) {
-            console.error(e, response.status)
+            console.error(e)
         }
-        throw errors;
+        throw new Error(error);
     }
 
     try {
         return await response.json();  
     } catch(e) {
         console.error(e);
-        throw ['error.unknown']
+        throw new Error('error.unknown');
     }
 }
 
