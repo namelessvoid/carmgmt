@@ -72,9 +72,17 @@ describe('AddRefuelling', () => {
         ${{...validFormData, date: ''}}           | ${dateInput}          | ${'date is empty'}
         ${{...validFormData, time: ''}}           | ${timeInput}          | ${'time is empty'}
         ${{...validFormData, price: ''}}          | ${priceInput}         | ${'price is empty'}
+        ${{...validFormData, price: 0}}           | ${priceInput}         | ${'price is zero'}
+        ${{...validFormData, price: -1}}          | ${priceInput}         | ${'price is negative'}
         ${{...validFormData, amount: ''}}         | ${amountInput}        | ${'amount is empty'}
+        ${{...validFormData, amount: 0}}          | ${amountInput}        | ${'amount is zero'}
+        ${{...validFormData, amount: -1}}         | ${amountInput}        | ${'amount is negative'}
         ${{...validFormData, pricePerLiter: ''}}  | ${pricePerLiterInput} | ${'pricePerLiter is empty'}        
+        ${{...validFormData, pricePerLiter: 0}}   | ${pricePerLiterInput} | ${'pricePerLiter is zero'}
+        ${{...validFormData, pricePerLiter: -1}}  | ${pricePerLiterInput} | ${'pricePerLiter is negative'}  
         ${{...validFormData, tripKilometers: ''}} | ${tripKilometersInput} | ${'tripKilometers is empty'}
+        ${{...validFormData, tripKilometers: 0}}  | ${tripKilometersInput} | ${'tripKilometers is zero'}
+        ${{...validFormData, tripKilometers: -1}} | ${tripKilometersInput} | ${'tripKilometers is negative'}
     `('should have invalid form when $reason', async ({ formData, input }) => {
         render(AddRefuelling, { props: { vehicleId: 20 }});
 

@@ -67,19 +67,31 @@
     }
 
     function validateTripKilometers() {
-        validation.tripKilometers = refuelling.tripKilometers != null && !isNaN(refuelling.tripKilometers);
+        validation.tripKilometers =
+            refuelling.tripKilometers != null &&
+            !isNaN(refuelling.tripKilometers) &&
+            refuelling.tripKilometers > 0;
     }
 
     function validateAmount() {
-        validation.amount = refuelling.amount != null && !isNaN(refuelling.amount);
+        validation.amount =
+            refuelling.amount != null &&
+            !isNaN(refuelling.amount) &&
+            refuelling.amount > 0;
     }
 
     function validatePrice() {
-        validation.price = refuelling.price != null && !isNaN(refuelling.price);
+        validation.price =
+            refuelling.price != null &&
+            !isNaN(refuelling.price) &&
+            refuelling.price > 0;
     }
 
     function validatePricePerLiter() {
-        validation.pricePerLiter = refuelling.pricePerLiter !== null && !isNaN(refuelling.pricePerLiter);
+        validation.pricePerLiter =
+            refuelling.pricePerLiter !== null &&
+            !isNaN(refuelling.pricePerLiter) &&
+            refuelling.pricePerLiter > 0;
     }
 
     function setTime(date) {
