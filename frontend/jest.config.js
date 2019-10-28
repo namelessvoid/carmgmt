@@ -4,4 +4,7 @@ module.exports = {
         '^.+.svelte$': 'jest-transform-svelte'
     },
     moduleFileExtensions: ['js','svelte'],
+    "transformIgnorePatterns": [
+        "node_modules/(?!(svelte-routing)/)"
+    ]
 };
