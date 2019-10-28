@@ -7,6 +7,8 @@
     import { addVehicle } from './api';
 
     let infos = [];
+    let error = null;
+
     let vehicle = null;
     let validation = null;
     let form = null;
@@ -45,8 +47,8 @@
             infos = ['fleet.vehicleAdded']
             dispatchVehicleAdded('vehicleAdded');
             resetForm();
-        } catch(err) {
-            infos = err;
+        } catch(e) {
+            error = e;
         }
     }
 </script>
@@ -62,4 +64,4 @@
     </div>
 </form>
 
-<Info infos={infos} />
+<Info infos={infos} error={error} />

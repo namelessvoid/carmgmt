@@ -11,7 +11,7 @@
     export let vehicleId = null;
 
     let vehicle = null;
-    let errors = [];
+    let error = null;
     let loading = false;
 
     onMount(async () => {
@@ -20,7 +20,7 @@
         try {
             vehicle = await getVehicleDetail(vehicleId);
         } catch(e) {
-            errors = e;
+            error = e;
         }
 
         loading = false;
@@ -28,7 +28,7 @@
 </script>
 
 <LoadingSpinner loading={loading} />
-<Info infos={errors} />
+<Info infos={[]} error={error} />
 
 {#if vehicle}
 <h2>{vehicle.name}</h2>

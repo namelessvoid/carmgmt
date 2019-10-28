@@ -13,10 +13,10 @@
 
         try {
             vehicles = await getAllVehicles();
-            errors = [];
+            error = null;
         } catch(e) {
             vehicles = [];
-            errors = e;
+            error = e;
         }
 
         loading = false;
@@ -24,7 +24,7 @@
 
     let vehicles = [];
     let loading = true;
-    let errors = [];
+    let error = null;
 
     onMount(async () => {
         await update();
@@ -51,4 +51,4 @@ td {
 </table>
 
 <LoadingSpinner loading={loading} />
-<Info infos={errors} />
+<Info infos={[]} error={error} />

@@ -10,7 +10,7 @@
     export let vehicleId = null;
 
     let loading = false;
-    let errors = [];
+    let error = null;
     let refuellings = [];
 
     onMount(async () => {
@@ -19,7 +19,7 @@
         try {
             refuellings = await getRefuellingsByVehicle(vehicleId);
         } catch(e) {
-            errors = e;
+            error = e;
         }
         
         loading = false;
@@ -52,4 +52,4 @@
 {/if}
 
 <LoadingSpinner loading={loading} />
-<Info infos={errors} />
+<Info infos={[]} error={error} />

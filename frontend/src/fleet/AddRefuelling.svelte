@@ -25,7 +25,7 @@
         pricePerLiter: null
     };
 
-    let errors = [];
+    let error = null;
 
     async function handleSubmit(event) {
         if(!validateForm()) {
@@ -40,7 +40,7 @@
         try {
             await addRefuellingToVehicle(vehicleId, json);
         } catch(e) {
-            errors = e;
+            error = e;
         }
     }
 
@@ -151,4 +151,4 @@
     </div>
 </form>
 
-<Info infos={errors} />
+<Info infos={[]} error={error} />
