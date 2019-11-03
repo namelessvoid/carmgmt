@@ -6,6 +6,7 @@ type User struct {
 }
 
 // IsAuthenticated returns if the user has been authenticated.
-func (u User) IsAuthenticated() bool {
+// This method can be used with the AuthorizationMiddleware
+func IsAuthenticated(u User) bool {
 	return u.isAuthenticated
 }

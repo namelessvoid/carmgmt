@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/namelessvoid/carmgmt/internal/pkg/api"
+	"github.com/namelessvoid/carmgmt/internal/pkg/auth"
 
 	"github.com/namelessvoid/carmgmt/internal/pkg/domain"
 
@@ -54,7 +55,12 @@ func main() {
 	vehicleRepository := domain.NewVehicleRepository()
 	vehicleService := domain.NewVehicleService(vehicleRepository, logger)
 
+	authenticator := auth.NewAuthenticator("username", "password")
+
 	r := mux.NewRouter()
+	mux.CORSMethodMiddleware(r)
+	r.Use(auth.AuthenticationMiddleware(authenticator))
+	r.HandleFunc("/login", auth.LoginHandler(authenticator))
 
 	api.ConfigureRoutes(r, vehicleService, logger)
 

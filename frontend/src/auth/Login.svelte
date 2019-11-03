@@ -1,7 +1,10 @@
 <script>
+    import { onMount } from 'svelte';
     import { _ } from 'svelte-i18n';
+    import { navigate } from 'svelte-routing';
 
     import Info from '../Info.svelte';
+    import { setToken } from './user';
 
     let credentials = {
         username: null,
@@ -43,8 +46,33 @@
             return;
         }
 
-        console.log(credentials.username, credentials.password);
+        const response = await fetch('http://localhost:8080/login', {
+            headers: {
+                "Authorization": "Basic " + btoa(`${credentials.username}:${credentials.password}`)
+            },
+            credentials: 'include',
+            method: 'POST',
+        });
+
+        let body = await response.json();
+        setToken(body.token)
+
+        console.log(response);
+        navigate('/fleet');
     }
+
+    onMount(async () => {
+        const response = await fetch('http://localhost:8080/login', {
+            method: 'POST',
+            credentials: 'include',
+        });
+        if(response.ok) {
+            let body = await response.json();
+            setToken(body.token);
+            console.log("Silent login successful")
+            navigate('/fleet')
+        }
+    });
 </script>
 
 <h2>{$_('auth.login')}</h2>

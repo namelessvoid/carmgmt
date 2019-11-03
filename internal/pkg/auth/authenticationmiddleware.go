@@ -12,22 +12,13 @@ type contextKey int
 const userKey contextKey = 0
 
 // AuthenticationMiddleware extracts the user authentication from the request.
-func AuthenticationMiddleware(correctUsername, correctPassword string) mux.MiddlewareFunc {
+func AuthenticationMiddleware(auth Authenticator) mux.MiddlewareFunc {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 			u := User{isAuthenticated: false}
+			u.isAuthenticated = auth.VerifyToken(req)
 
-			username, password, ok := req.BasicAuth()
-			if ok {
-				isAuthenticated := username == correctUsername && password == correctPassword
-				if !isAuthenticated {
-					http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
-					return
-				}
-				u.isAuthenticated = isAuthenticated
-			}
-
-			ctx := context.WithValue(req.Context(), userKey, u)
+			ctx := addUserToContext(req.Context(), u)
 
 			next.ServeHTTP(w, req.WithContext(ctx))
 		})
@@ -38,4 +29,8 @@ func AuthenticationMiddleware(correctUsername, correctPassword string) mux.Middl
 // by the AuthenticationMiddleware
 func GetUserFromContext(ctx context.Context) User {
 	return ctx.Value(userKey).(User)
+}
+
+func addUserToContext(ctx context.Context, user User) context.Context {
+	return context.WithValue(ctx, userKey, user)
 }

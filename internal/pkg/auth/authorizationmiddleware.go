@@ -8,18 +8,12 @@ import (
 
 // AuthorizationMiddleware performs authorization check based on the provided
 // authorize function.
-func AuthorizationMiddleware(authorize func(User) (bool, error)) mux.MiddlewareFunc {
+func AuthorizationMiddleware(authorize func(User) bool) mux.MiddlewareFunc {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 			u := GetUserFromContext(req.Context())
 
-			isAuthorized, err := authorize(u)
-			if err != nil {
-				http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-				return
-			}
-
-			if !isAuthorized {
+			if !authorize(u) {
 				http.Error(w, http.StatusText(http.StatusForbidden), http.StatusForbidden)
 				return
 			}
