@@ -26,6 +26,11 @@ dictionary.set({
             'vehicleAdded': 'Fahrzeug wurde hinzugefügt.',
             'addRefuelling': 'Tankvorgang hinzufügen'
         },
+        'auth': {
+            'username': 'Benutzername',
+            'password': 'Passwort',
+            'login': 'Anmelden'
+        },
         'loading': 'Lädt...',
         'error': {
             'networkFailure': 'Sie sind gerade offline oder der Server ist gerade nicht erreichbar.',
@@ -57,6 +62,11 @@ dictionary.set({
                 'emptyList': 'No refuellings added yet'
             },
             'addRefuelling': 'Add refuelling'
+        },
+        'auth': {
+            'username': 'Username',
+            'password': 'Password',
+            'login': 'Login'
         },
         'loading': 'Loading...',
         'error': {
