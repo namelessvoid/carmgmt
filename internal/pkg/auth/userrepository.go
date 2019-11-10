@@ -8,6 +8,8 @@ import (
 	"google.golang.org/api/iterator"
 )
 
+//go:generate mockgen -source userrepository.go -destination=./mock/userrepositorymock.go -package=auth_mock
+
 // A UserRepository is used to persist and query User objects.
 type UserRepository interface {
 	CreateUser(ctx context.Context, user User) (User, error)

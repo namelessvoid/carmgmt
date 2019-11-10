@@ -9,6 +9,7 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/namelessvoid/carmgmt/internal/pkg/auth"
 	auth_mock "github.com/namelessvoid/carmgmt/internal/pkg/auth/mock"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func Test_Authenticator_LoginViaCredentials(t *testing.T) {
@@ -16,20 +17,29 @@ func Test_Authenticator_LoginViaCredentials(t *testing.T) {
 		correctUsername = "correctUsername"
 		correctPassword = "correctPassword"
 	)
+	correctPasswordHash, _ := bcrypt.GenerateFromPassword([]byte(correctPassword), bcrypt.DefaultCost)
 
 	t.Run("returns valid token if credentials are correct", func(t *testing.T) {
+		mockCtrl := gomock.NewController(t)
+		defer mockCtrl.Finish()
+
 		req, err := http.NewRequest("", "", nil)
 		if err != nil {
 			t.Fatal(err)
 		}
 		req.SetBasicAuth(correctUsername, correctPassword)
 
-		authenticator := auth.NewAuthenticator(correctUsername, correctPassword, nil)
+		userRepository := auth_mock.NewMockUserRepository(mockCtrl)
+		userRepository.
+			EXPECT().
+			FindUserByUsername(gomock.Any(), correctUsername).
+			Return(auth.User{ID: 2010, Username: correctUsername, Password: string(correctPasswordHash)}, nil)
+		authenticator := auth.NewAuthenticator(userRepository, nil)
 
 		token, err := authenticator.LoginViaCredentials(req)
 
 		if err != nil {
-			t.Errorf("LoginViaCredentials() returned unexpected error: got %v want nil", err)
+			t.Errorf("LoginViaCredentials() returned unexpected error: got '%v' want no error", err)
 		}
 
 		if token.IsEmpty() {
@@ -67,13 +77,27 @@ func Test_Authenticator_LoginViaCredentials(t *testing.T) {
 	}}
 	for _, run := range invalidAuthenticationTests {
 		t.Run("returns empty token if "+run.reason, func(t *testing.T) {
+			mockCtrl := gomock.NewController(t)
+			defer mockCtrl.Finish()
+
 			req, err := http.NewRequest("", "", nil)
 			if err != nil {
 				t.Fatal(err)
 			}
 			req.SetBasicAuth(run.username, run.password)
 
-			authenticator := auth.NewAuthenticator(correctUsername, correctPassword, nil)
+			userRepository := auth_mock.NewMockUserRepository(mockCtrl)
+			userRepository.
+				EXPECT().
+				FindUserByUsername(gomock.Any(), correctUsername).
+				Return(auth.User{ID: 2010, Username: correctUsername, Password: string(correctPasswordHash)}, nil).
+				AnyTimes()
+			userRepository.
+				EXPECT().
+				FindUserByUsername(gomock.Any(), gomock.Any()).
+				Return(auth.User{}, auth.ErrUserNotFound).
+				AnyTimes()
+			authenticator := auth.NewAuthenticator(userRepository, nil)
 
 			token, err := authenticator.LoginViaCredentials(req)
 
@@ -91,6 +115,7 @@ func Test_Authenticator_LoginViaCredentials(t *testing.T) {
 func Test_Authenticator_CreateSession(t *testing.T) {
 	t.Run("saves new token and adds it to the response", func(t *testing.T) {
 		mockCtrl := gomock.NewController(t)
+		defer mockCtrl.Finish()
 
 		expectedCookieRegex := "FLEETMGMT_SESSION=\\d+; Path=/; Domain=localhost; HttpOnly"
 
@@ -99,7 +124,7 @@ func Test_Authenticator_CreateSession(t *testing.T) {
 		sessionRepository := auth_mock.NewMockSessionRepository(mockCtrl)
 		sessionRepository.EXPECT().CreateSession(gomock.Any())
 
-		authenticator := auth.NewAuthenticator("foo", "bar", sessionRepository)
+		authenticator := auth.NewAuthenticator(nil, sessionRepository)
 
 		err := authenticator.CreateSession(res)
 

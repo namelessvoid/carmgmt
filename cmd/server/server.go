@@ -65,8 +65,11 @@ func main() {
 	vehicleRepository := domain.NewVehicleRepository()
 	vehicleService := domain.NewVehicleService(vehicleRepository, logger)
 
+	userRepository := auth.NewAppengineUserRepository(datastoreClient)
 	sessionRepository := auth.NewAppengineSessionRepository(ctx, datastoreClient)
-	authenticator := auth.NewAuthenticator("username", "password", sessionRepository)
+	authenticator := auth.NewAuthenticator(userRepository, sessionRepository)
+
+	authenticator.CreateUser(ctx, "username", "password")
 
 	r := mux.NewRouter()
 	mux.CORSMethodMiddleware(r)

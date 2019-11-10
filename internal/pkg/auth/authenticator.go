@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"strings"
@@ -8,14 +9,11 @@ import (
 	"crypto/rand"
 	"math"
 	"math/big"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 //go:generate mockgen -source authenticator.go -destination=./mock/authenticatormock.go -package=auth_mock
-
-type user struct {
-	username string
-	password string
-}
 
 type Token string
 type tokens map[Token]bool
@@ -28,6 +26,7 @@ func (t Token) IsEmpty() bool {
 // to create a new cookie based session and to verify tokens created by
 // the login methods.
 type Authenticator interface {
+	CreateUser(ctx context.Context, username string, password string) error
 	LoginViaSession(r *http.Request) (Token, error)
 	LoginViaCredentials(r *http.Request) (Token, error)
 	CreateSession(w http.ResponseWriter) error
@@ -35,14 +34,13 @@ type Authenticator interface {
 }
 
 type authenticator struct {
-	user     user
+	users    UserRepository
 	sessions SessionRepository
 	tokens   tokens
 }
 
-func NewAuthenticator(username, password string, sessionRepository SessionRepository) *authenticator {
-	u := user{username: username, password: password}
-	return &authenticator{user: u, sessions: sessionRepository, tokens: tokens{}}
+func NewAuthenticator(userRepository UserRepository, sessionRepository SessionRepository) *authenticator {
+	return &authenticator{users: userRepository, sessions: sessionRepository, tokens: tokens{}}
 }
 
 func (a *authenticator) LoginViaSession(r *http.Request) (Token, error) {
@@ -66,19 +64,41 @@ func (a *authenticator) LoginViaSession(r *http.Request) (Token, error) {
 	return a.generateToken(), nil
 }
 
+func (a *authenticator) CreateUser(ctx context.Context, username, password string) error {
+	hashed, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+
+	user := User{Username: username, Password: string(hashed)}
+	fmt.Println(user)
+	_, err = a.users.CreateUser(ctx, user)
+
+	return err
+}
+
 func (a *authenticator) LoginViaCredentials(r *http.Request) (Token, error) {
 	username, password, ok := r.BasicAuth()
-
 	if !ok {
 		return "", nil
 	}
 
-	fmt.Println("via credentials: ", a.user.username, a.user.password)
-	if a.user.username == username && a.user.password == password {
-		return a.generateToken(), nil
+	user, err := a.users.FindUserByUsername(r.Context(), username)
+	if err == ErrUserNotFound {
+		return "", nil
+	} else if err != nil {
+		return "", err
 	}
 
-	return "", nil
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	fmt.Printf("storedPw: %s comparePw: %s", user.Password, password)
+	if err == bcrypt.ErrMismatchedHashAndPassword {
+		return "", nil
+	} else if err != nil {
+		return "", err
+	}
+
+	return a.generateToken(), nil
 }
 
 func (a *authenticator) CreateSession(w http.ResponseWriter) error {
