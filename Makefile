@@ -9,6 +9,10 @@ local_test_env:
 	mkdir -p .local_test_env/datastore
 	gcloud beta emulators datastore start --data-dir=.local_test_env/datastore/
 
+generate:
+	export PATH=$$PATH:~/go/bin
+	go generate ./...
+
 test:
 	go test ./... -test.short
 

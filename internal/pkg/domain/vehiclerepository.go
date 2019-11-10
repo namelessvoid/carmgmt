@@ -2,6 +2,8 @@ package domain
 
 import "fmt"
 
+//go:generate mockgen -source vehiclerepository.go -destination=./mock/vehiclerepositorymock.go -package=domain_mock
+
 type VehicleRepository interface {
 	CreateVehicle(vehicle Vehicle) (Vehicle, error)
 	GetAllVehicles() ([]Vehicle, error)

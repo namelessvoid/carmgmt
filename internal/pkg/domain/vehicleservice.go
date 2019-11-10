@@ -4,6 +4,8 @@ import (
 	"go.uber.org/zap"
 )
 
+//go:generate mockgen -source vehicleservice.go -destination=./mock/vehicleservicemock.go -package=domain_mock
+
 type VehicleService interface {
 	CreateVehicle(name string) (Vehicle, error)
 	GetAllVehicles() ([]Vehicle, error)

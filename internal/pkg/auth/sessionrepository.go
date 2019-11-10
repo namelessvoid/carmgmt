@@ -8,6 +8,8 @@ import (
 	"google.golang.org/api/iterator"
 )
 
+//go:generate mockgen -source sessionrepository.go -destination=./mock/sessionrepositorymock.go -package=auth_mock
+
 // The SessionRepository stores sessions e.g. created by an Authenticator.
 type SessionRepository interface {
 	CreateSession(session Session) error

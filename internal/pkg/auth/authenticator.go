@@ -10,6 +10,8 @@ import (
 	"math/big"
 )
 
+//go:generate mockgen -source authenticator.go -destination=./mock/authenticatormock.go -package=auth_mock
+
 type user struct {
 	username string
 	password string
