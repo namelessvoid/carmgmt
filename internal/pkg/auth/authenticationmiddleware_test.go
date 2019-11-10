@@ -32,8 +32,8 @@ func Test_AuthenticationMiddleware(t *testing.T) {
 
 	middleware.ServeHTTP(res, req)
 
-	actualUser := auth.GetUserFromContext(actualContext)
-	if auth.IsAuthenticated(actualUser) != true {
-		t.Error("actualUser.IsAuthenticated() has unexpected value: got false want true")
+	userInfo := auth.GetUserInfoFromContext(actualContext)
+	if userInfo.IsAuthenticated != true {
+		t.Error("userInfo.IsAuthenticated has unexpected value: got false want true")
 	}
 }

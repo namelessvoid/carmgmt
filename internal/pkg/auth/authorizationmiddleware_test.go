@@ -31,7 +31,7 @@ func Test_AuthorizationMiddleware(t *testing.T) {
 
 	for _, run := range tests {
 		t.Run(run.name, func(t *testing.T) {
-			authorizationFunction := func(u auth.User) bool {
+			authorizationFunction := func(u auth.UserInfo) bool {
 				return run.authorized
 			}
 

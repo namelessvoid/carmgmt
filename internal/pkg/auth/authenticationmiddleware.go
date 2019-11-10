@@ -9,16 +9,16 @@ import (
 
 type contextKey int
 
-const userKey contextKey = 0
+const userInfoKey contextKey = 0
 
 // AuthenticationMiddleware extracts the user authentication from the request.
 func AuthenticationMiddleware(auth Authenticator) mux.MiddlewareFunc {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-			u := User{isAuthenticated: false}
-			u.isAuthenticated = auth.VerifyToken(req)
+			info := UserInfo{IsAuthenticated: false}
+			info.IsAuthenticated = auth.VerifyToken(req)
 
-			ctx := addUserToContext(req.Context(), u)
+			ctx := addUserInfoToContext(req.Context(), info)
 
 			next.ServeHTTP(w, req.WithContext(ctx))
 		})
@@ -27,10 +27,10 @@ func AuthenticationMiddleware(auth Authenticator) mux.MiddlewareFunc {
 
 // GetUserFromContext returns the User added to the context
 // by the AuthenticationMiddleware
-func GetUserFromContext(ctx context.Context) User {
-	return ctx.Value(userKey).(User)
+func GetUserInfoFromContext(ctx context.Context) UserInfo {
+	return ctx.Value(userInfoKey).(UserInfo)
 }
 
-func addUserToContext(ctx context.Context, user User) context.Context {
-	return context.WithValue(ctx, userKey, user)
+func addUserInfoToContext(ctx context.Context, user UserInfo) context.Context {
+	return context.WithValue(ctx, userInfoKey, user)
 }
