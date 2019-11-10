@@ -19,3 +19,7 @@ test_unit:
 test_all:
 	$(shell gcloud beta emulators datastore env-init --data-dir=.local_test_env/datastore)
 	go test ./...
+
+local_server:
+	$(shell gcloud beta emulators datastore env-init --data-dir=.local_test_env/datastore)
+	go run cmd/server/server.go
