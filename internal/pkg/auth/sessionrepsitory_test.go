@@ -12,13 +12,14 @@ import (
 )
 
 func Test_AppengineSessionRepsitory(t *testing.T) {
-	rand.Seed(time.Now().UnixNano())
-
-	var repo auth.SessionRepository
-
 	if testing.Short() {
 		t.Skip("Skip integration test in short mode")
 	}
+
+	rand.Seed(time.Now().UnixNano())
+
+	// Ensure AppengineSessionRepository implements auth.SessionRepository
+	var repo auth.SessionRepository
 
 	ctx := context.Background()
 	dsClient, err := datastore.NewClient(ctx, "integration-test")
@@ -27,7 +28,7 @@ func Test_AppengineSessionRepsitory(t *testing.T) {
 	}
 	defer dsClient.Close()
 
-	t.Run("returns ErrSessionNotFound when session does not exist", func(t *testing.T) {
+	t.Run("FindSession() returns ErrSessionNotFound when session does not exist", func(t *testing.T) {
 		repo = auth.NewAppengineSessionRepository(ctx, dsClient)
 
 		_, err = repo.FindSession("foo")

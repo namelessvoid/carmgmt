@@ -25,7 +25,7 @@ type appengineSessionRepository struct {
 // find a valid session.
 var ErrSessionNotFound = errors.New("Session not found")
 
-// NewAppEngineSessionRepository creates a new SessionRepository which stores its
+// NewAppengineSessionRepository creates a new SessionRepository which stores its
 // data in a google Datastore.
 func NewAppengineSessionRepository(ctx context.Context, client *datastore.Client) *appengineSessionRepository {
 	return &appengineSessionRepository{ctx: ctx, client: client}
