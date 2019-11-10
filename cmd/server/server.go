@@ -1,10 +1,12 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"time"
 
+	"cloud.google.com/go/datastore"
 	"github.com/namelessvoid/carmgmt/internal/pkg/api"
 	"github.com/namelessvoid/carmgmt/internal/pkg/auth"
 
@@ -46,16 +48,25 @@ func createLogger() (*zap.Logger, error) {
 }
 
 func main() {
+	ctx := context.Background()
+
 	logger, err := createLogger()
 	if err != nil {
 		panic(err)
 	}
 	defer logger.Sync()
 
+	datastoreClient, err := datastore.NewClient(ctx, "carmanagement")
+	if err != nil {
+		panic(err)
+	}
+	defer datastoreClient.Close()
+
 	vehicleRepository := domain.NewVehicleRepository()
 	vehicleService := domain.NewVehicleService(vehicleRepository, logger)
 
-	authenticator := auth.NewAuthenticator("username", "password")
+	sessionRepository := auth.NewAppengineSessionRepository(ctx, datastoreClient)
+	authenticator := auth.NewAuthenticator("username", "password", sessionRepository)
 
 	r := mux.NewRouter()
 	mux.CORSMethodMiddleware(r)

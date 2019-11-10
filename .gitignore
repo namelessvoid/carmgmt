@@ -13,3 +13,6 @@ server
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+
+# Data stored in local dev environment
+.local_test_env/

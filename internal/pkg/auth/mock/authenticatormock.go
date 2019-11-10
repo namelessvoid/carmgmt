@@ -65,9 +65,11 @@ func (mr *MockAuthenticatorMockRecorder) LoginViaCredentials(r interface{}) *gom
 }
 
 // CreateSession mocks base method
-func (m *MockAuthenticator) CreateSession(w http.ResponseWriter) {
+func (m *MockAuthenticator) CreateSession(w http.ResponseWriter) error {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "CreateSession", w)
+	ret := m.ctrl.Call(m, "CreateSession", w)
+	ret0, _ := ret[0].(error)
+	return ret0
 }
 
 // CreateSession indicates an expected call of CreateSession

@@ -3,9 +3,12 @@ package auth_test
 import (
 	"net/http"
 	"net/http/httptest"
+	"regexp"
 	"testing"
 
+	"github.com/golang/mock/gomock"
 	"github.com/namelessvoid/carmgmt/internal/pkg/auth"
+	auth_mock "github.com/namelessvoid/carmgmt/internal/pkg/auth/mock"
 )
 
 func Test_Authenticator_LoginViaCredentials(t *testing.T) {
@@ -21,7 +24,7 @@ func Test_Authenticator_LoginViaCredentials(t *testing.T) {
 		}
 		req.SetBasicAuth(correctUsername, correctPassword)
 
-		authenticator := auth.NewAuthenticator(correctUsername, correctPassword)
+		authenticator := auth.NewAuthenticator(correctUsername, correctPassword, nil)
 
 		token, err := authenticator.LoginViaCredentials(req)
 
@@ -70,7 +73,7 @@ func Test_Authenticator_LoginViaCredentials(t *testing.T) {
 			}
 			req.SetBasicAuth(run.username, run.password)
 
-			authenticator := auth.NewAuthenticator(correctUsername, correctPassword)
+			authenticator := auth.NewAuthenticator(correctUsername, correctPassword, nil)
 
 			token, err := authenticator.LoginViaCredentials(req)
 
@@ -86,18 +89,27 @@ func Test_Authenticator_LoginViaCredentials(t *testing.T) {
 }
 
 func Test_Authenticator_CreateSession(t *testing.T) {
-	t.Run("adds token to the response", func(t *testing.T) {
-		expectedCookie := "FLEETMGMT_SESSION=somesession; Path=/; Domain=localhost; HttpOnly"
+	t.Run("saves new token and adds it to the response", func(t *testing.T) {
+		mockCtrl := gomock.NewController(t)
+
+		expectedCookieRegex := "FLEETMGMT_SESSION=\\d+; Path=/; Domain=localhost; HttpOnly"
 
 		res := httptest.NewRecorder()
 
-		authenticator := auth.NewAuthenticator("foo", "bar")
+		sessionRepository := auth_mock.NewMockSessionRepository(mockCtrl)
+		sessionRepository.EXPECT().CreateSession(gomock.Any())
 
-		authenticator.CreateSession(res)
+		authenticator := auth.NewAuthenticator("foo", "bar", sessionRepository)
+
+		err := authenticator.CreateSession(res)
+
+		if err != nil {
+			t.Errorf("CreateSession() returned unexpected error: %v", err)
+		}
 
 		actualCookie := res.Header().Get("Set-Cookie")
-		if actualCookie != expectedCookie {
-			t.Errorf("CreateSession() added unexpected Set-Cookie header: got '%v' want '%v'", actualCookie, expectedCookie)
+		if matched, _ := regexp.MatchString(expectedCookieRegex, actualCookie); !matched {
+			t.Errorf("CreateSession() added unexpected Set-Cookie header: got '%v' did not match regexp '%v'", actualCookie, expectedCookieRegex)
 		}
 	})
 }

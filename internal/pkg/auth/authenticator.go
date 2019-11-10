@@ -4,6 +4,10 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+
+	"crypto/rand"
+	"math"
+	"math/big"
 )
 
 type user struct {
@@ -18,28 +22,25 @@ func (t Token) IsEmpty() bool {
 	return len(t) == 0
 }
 
-type session string
-type sessions map[session]bool
-
 // The Authenticator can be used to login via cookie or user credentials,
 // to create a new cookie based session and to verify tokens created by
 // the login methods.
 type Authenticator interface {
 	LoginViaSession(r *http.Request) (Token, error)
 	LoginViaCredentials(r *http.Request) (Token, error)
-	CreateSession(w http.ResponseWriter)
+	CreateSession(w http.ResponseWriter) error
 	VerifyToken(r *http.Request) bool
 }
 
 type authenticator struct {
 	user     user
-	sessions sessions
+	sessions SessionRepository
 	tokens   tokens
 }
 
-func NewAuthenticator(username, password string) *authenticator {
+func NewAuthenticator(username, password string, sessionRepository SessionRepository) *authenticator {
 	u := user{username: username, password: password}
-	return &authenticator{user: u, sessions: sessions{}, tokens: tokens{}}
+	return &authenticator{user: u, sessions: sessionRepository, tokens: tokens{}}
 }
 
 func (a *authenticator) LoginViaSession(r *http.Request) (Token, error) {
@@ -51,12 +52,16 @@ func (a *authenticator) LoginViaSession(r *http.Request) (Token, error) {
 		return "", err
 	}
 
-	_, exists := a.sessions[session(c.Value)]
-	if exists {
-		return a.generateToken(), nil
+	tokenInRequest := c.Value
+	_, err = a.sessions.FindSession(tokenInRequest)
+
+	if err == ErrSessionNotFound {
+		return "", nil
+	} else if err != nil {
+		return "", err
 	}
 
-	return "", nil
+	return a.generateToken(), nil
 }
 
 func (a *authenticator) LoginViaCredentials(r *http.Request) (Token, error) {
@@ -74,12 +79,24 @@ func (a *authenticator) LoginViaCredentials(r *http.Request) (Token, error) {
 	return "", nil
 }
 
-func (a *authenticator) CreateSession(w http.ResponseWriter) {
-	s := session("somesession")
-	a.sessions[s] = true
-	c := &http.Cookie{Name: "FLEETMGMT_SESSION", Value: string(s), HttpOnly: true, Path: "/", Domain: "localhost"}
-	fmt.Println(c.Secure)
+func (a *authenticator) CreateSession(w http.ResponseWriter) error {
+	max := big.NewInt(math.MaxInt64)
+	intToken, err := rand.Int(rand.Reader, max)
+	if err != nil {
+		return err
+	}
+
+	session := Session{Token: intToken.String(), UserID: 1}
+
+	err = a.sessions.CreateSession(session)
+	if err != nil {
+		return err
+	}
+
+	c := &http.Cookie{Name: "FLEETMGMT_SESSION", Value: string(session.Token), HttpOnly: true, Path: "/", Domain: "localhost"}
 	http.SetCookie(w, c)
+
+	return nil
 }
 
 func (a *authenticator) VerifyToken(r *http.Request) bool {
