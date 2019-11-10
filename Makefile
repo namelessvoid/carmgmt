@@ -13,9 +13,9 @@ generate:
 	export PATH=$$PATH:~/go/bin
 	go generate ./...
 
-test:
+test_unit:
 	go test ./... -test.short
 
-test_integration:
+test_all:
 	$(shell gcloud beta emulators datastore env-init --data-dir=.local_test_env/datastore)
 	go test ./...
