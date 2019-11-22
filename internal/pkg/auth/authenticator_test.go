@@ -1,6 +1,7 @@
 package auth_test
 
 import (
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"regexp"
@@ -135,6 +136,114 @@ func Test_Authenticator_CreateSession(t *testing.T) {
 		actualCookie := res.Header().Get("Set-Cookie")
 		if matched, _ := regexp.MatchString(expectedCookieRegex, actualCookie); !matched {
 			t.Errorf("CreateSession() added unexpected Set-Cookie header: got '%v' did not match regexp '%v'", actualCookie, expectedCookieRegex)
+		}
+	})
+}
+
+func Test_Authenticator_LoginViaSession(t *testing.T) {
+	t.Run("returns token if session is valid", func(t *testing.T) {
+		mockCtrl := gomock.NewController(t)
+		defer mockCtrl.Finish()
+
+		validSessionToken := "valid_session"
+
+		sessionRepository := auth_mock.NewMockSessionRepository(mockCtrl)
+		sessionRepository.EXPECT().FindSession(validSessionToken).Return(auth.Session{}, nil)
+
+		authenticator := auth.NewAuthenticator(nil, sessionRepository)
+
+		req, err := http.NewRequest("", "", nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+		req.AddCookie(&http.Cookie{Name: "FLEETMGMT_SESSION", Value: validSessionToken})
+
+		token, err := authenticator.LoginViaSession(req)
+
+		if err != nil {
+			t.Errorf("LoginViaSession() returned unexpected error: got '%v' want no error", err)
+		}
+
+		if token == "" {
+			t.Errorf("LoginViaSession() did not return valid token")
+		}
+	})
+
+	t.Run("returns empty token if request has no cookie", func(t *testing.T) {
+		mockCtrl := gomock.NewController(t)
+		defer mockCtrl.Finish()
+
+		sessionRepository := auth_mock.NewMockSessionRepository(mockCtrl)
+		authenticator := auth.NewAuthenticator(nil, sessionRepository)
+
+		req, err := http.NewRequest("", "", nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		token, err := authenticator.LoginViaSession(req)
+
+		if err != nil {
+			t.Errorf("LoginViaSession() returned unexpected error: got '%v' want no error", err)
+		}
+
+		if token != "" {
+			t.Errorf("LoginViaSession() returned unexpected token: got '%v' want empty string", token)
+		}
+	})
+
+	t.Run("returns empty token if session is not found", func(t *testing.T) {
+		mockCtrl := gomock.NewController(t)
+		defer mockCtrl.Finish()
+
+		invalidSessionToken := "does not exist"
+
+		sessionRepository := auth_mock.NewMockSessionRepository(mockCtrl)
+		sessionRepository.EXPECT().FindSession(invalidSessionToken).Return(auth.Session{}, auth.ErrSessionNotFound)
+
+		authenticator := auth.NewAuthenticator(nil, sessionRepository)
+
+		req, err := http.NewRequest("", "", nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+		req.AddCookie(&http.Cookie{Name: "FLEETMGMT_SESSION", Value: invalidSessionToken})
+
+		token, err := authenticator.LoginViaSession(req)
+
+		if err != nil {
+			t.Errorf("LoginViaSession() returned unexpected error: got '%v' want no error", err)
+		}
+
+		if token != "" {
+			t.Errorf("LoginViaSession() returned unexpected token: got '%v' want empty string", token)
+		}
+	})
+
+	t.Run("returns error if SessionRepository returns error", func(t *testing.T) {
+		mockCtrl := gomock.NewController(t)
+		defer mockCtrl.Finish()
+
+		expectedError := errors.New("Some internal error")
+		sessionRepository := auth_mock.NewMockSessionRepository(mockCtrl)
+		sessionRepository.EXPECT().FindSession(gomock.Any()).Return(auth.Session{}, expectedError)
+
+		authenticator := auth.NewAuthenticator(nil, sessionRepository)
+
+		req, err := http.NewRequest("", "", nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+		req.AddCookie(&http.Cookie{Name: "FLEETMGMT_SESSION", Value: "any_token"})
+
+		token, err := authenticator.LoginViaSession(req)
+
+		if err != expectedError {
+			t.Errorf("LoginViaSession() returned unexpected error: got '%v' want '%v'", err, expectedError)
+		}
+
+		if token != "" {
+			t.Errorf("LoginViaSession() returned unexpected token: got '%v' want empty string", token)
 		}
 	})
 }

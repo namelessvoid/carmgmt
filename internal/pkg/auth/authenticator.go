@@ -91,7 +91,6 @@ func (a *authenticator) LoginViaCredentials(r *http.Request) (Token, error) {
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
-	fmt.Printf("storedPw: %s comparePw: %s", user.Password, password)
 	if err == bcrypt.ErrMismatchedHashAndPassword {
 		return "", nil
 	} else if err != nil {
