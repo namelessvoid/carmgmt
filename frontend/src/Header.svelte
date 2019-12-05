@@ -1,5 +1,6 @@
 <script>
     import LanguageSwitcher from './i18n/LanguageSwitcher.svelte';
+    import LogoutButton from './auth/LogoutButton.svelte';
 </script>
 
 <style>
@@ -23,5 +24,7 @@ span {
 </style>
 
 <header>
-<span class="logo">FleetMgmt</span> <span><LanguageSwitcher /></span>
+<span class="logo">FleetMgmt</span>
+<span><LanguageSwitcher /></span>
+<span><LogoutButton /></span>
 </header>

@@ -14,6 +14,7 @@ func AuthorizationMiddleware(authorize func(UserInfo) bool) mux.MiddlewareFunc {
 			info := GetUserInfoFromContext(req.Context())
 
 			if !authorize(info) {
+				println("Authorization failed. URL:", req.URL.String())
 				http.Error(w, http.StatusText(http.StatusForbidden), http.StatusForbidden)
 				return
 			}

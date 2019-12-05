@@ -5,6 +5,7 @@ module.exports = {
     },
     moduleFileExtensions: ['js','svelte'],
     "transformIgnorePatterns": [
+        // Also transpile svelte-routing
         "node_modules/(?!(svelte-routing)/)"
     ]
 };

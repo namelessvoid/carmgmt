@@ -1,6 +1,6 @@
 const host = 'http://localhost:8080';
 
-import { getToken } from '../auth/user';
+import { getToken } from '../auth/auth';
 import { navigate } from 'svelte-routing';
 
 export async function handleFetch(fetchPromise) {
@@ -39,7 +39,7 @@ export async function getAllVehicles() {
         fetch(host + '/vehicles', {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${getToken()}`
+                'Authorization': `Bearer ${await getToken()}`
             }
         })
     );
@@ -50,7 +50,7 @@ export async function addVehicle(vehicle) {
         fetch(host + '/vehicles', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${getToken()}`
+                'Authorization': `Bearer ${await getToken()}`
             },
             body: JSON.stringify(vehicle)
         })
@@ -59,13 +59,23 @@ export async function addVehicle(vehicle) {
 
 export async function getVehicleDetail(vehicleId) {
     return await handleFetch(
-        fetch(host + `/vehicles/${vehicleId}`)
+        fetch(host + `/vehicles/${vehicleId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${await getToken()}`
+            }
+        })
     );
 }
 
 export async function getRefuellingsByVehicle(vehicleId) {
     return await handleFetch(
-        fetch(host + `/vehicles/${vehicleId}/refuellings`)
+        fetch(host + `/vehicles/${vehicleId}/refuellings`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${await getToken()}`
+            }
+        })
     );
 }
 
@@ -74,7 +84,7 @@ export async function addRefuellingToVehicle(vehicleId, refuelling) {
         fetch(host + `/vehicles/${vehicleId}/refuellings`, {
             method: 'POST',
             headers: {
-                'Authorization': "Basic " + getToken()
+                'Authorization': `Bearer ${await getToken()}`
             },
             body: JSON.stringify(refuelling)
         })

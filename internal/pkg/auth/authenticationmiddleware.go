@@ -25,7 +25,7 @@ func AuthenticationMiddleware(auth Authenticator) mux.MiddlewareFunc {
 	}
 }
 
-// GetUserFromContext returns the User added to the context
+// GetUserInfoFromContext returns the User added to the context
 // by the AuthenticationMiddleware
 func GetUserInfoFromContext(ctx context.Context) UserInfo {
 	return ctx.Value(userInfoKey).(UserInfo)
