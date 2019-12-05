@@ -16,9 +16,18 @@ generate:
 test_unit:
 	go test ./... -test.short
 
+test_unit_coverage:
+	go test ./... -test.short -coverprofile=coverage.out
+	go tool cover -html=coverage.out
+
 test_all:
 	$(shell gcloud beta emulators datastore env-init --data-dir=.local_test_env/datastore)
 	go test ./...
+
+test_all_coverage:
+	$(shell gcloud beta emulators datastore env-init --data-dir=.local_test_env/datastore)
+	go test ./... -coverprofile=coverage.out
+	go tool cover -html=coverage.out
 
 local_server:
 	$(shell gcloud beta emulators datastore env-init --data-dir=.local_test_env/datastore)
