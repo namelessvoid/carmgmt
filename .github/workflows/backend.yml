@@ -6,6 +6,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
+      continue-on-error: true
 
     - name: Set up Go 1.13
       uses: actions/setup-go@v1
@@ -27,8 +28,12 @@ jobs:
     - name: Generate
       run: |
         export PATH=$PATH:~/go/bin
-        x=$(go generate -v ./...)
         go generate -v ./...
+
+    - name: Generate2
+      run: |
+        export PATH=$PATH:~/go/bin
+        go generate -v ./...      
 
     - name: Unit Test
       run: go test -v -test.short ./...
