@@ -27,7 +27,8 @@ jobs:
     - name: Generate
       run: |
         export PATH=$PATH:~/go/bin
-        go generate -v ./... ; go generate -v ./...
+        x=$(go generate -v ./...)
+        go generate -v ./...
 
     - name: Unit Test
       run: go test -v -test.short ./...
