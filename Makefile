@@ -29,6 +29,8 @@ test_all_coverage:
 	go test ./... -coverprofile=coverage.out
 	go tool cover -html=coverage.out
 
+local_server: export AUTH_ISSUER = "https://dev-fleetmgmt.eu.auth0.com/"
+local_server: export AUTH_CLIENTID = "Fleet Management - Local"
 local_server:
 	$(shell gcloud beta emulators datastore env-init --data-dir=.local_test_env/datastore)
-	go run cmd/server/server.go
+	go run cmd/server/server.go cmd/server/configuration.go

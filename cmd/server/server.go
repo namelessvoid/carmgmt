@@ -56,6 +56,11 @@ func main() {
 	}
 	defer logger.Sync()
 
+	config, err := GetConfigFromEnvironment()
+	if err != nil {
+		panic(err)
+	}
+
 	datastoreClient, err := datastore.NewClient(ctx, "carmanagement")
 	if err != nil {
 		panic(err)
@@ -65,7 +70,7 @@ func main() {
 	vehicleRepository := domain.NewVehicleRepository()
 	vehicleService := domain.NewVehicleService(vehicleRepository, logger)
 
-	authenticator := auth.NewAuthenticator()
+	authenticator := auth.NewAuthenticator(config.Auth.Issuer, config.Auth.ClientID)
 
 	r := mux.NewRouter()
 	mux.CORSMethodMiddleware(r)

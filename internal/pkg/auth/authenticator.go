@@ -17,21 +17,24 @@ type Authenticator interface {
 	VerifyToken(r *http.Request) bool
 }
 
-type authenticator struct{}
+type authenticator struct {
+	issuer   string
+	clientID string
+}
 
-func NewAuthenticator() *authenticator {
-	return &authenticator{}
+func NewAuthenticator(issuer string, clientID string) *authenticator {
+	return &authenticator{issuer: issuer, clientID: clientID}
 }
 
 func (a *authenticator) VerifyToken(r *http.Request) bool {
 	ctx := context.Background()
-	provider, err := oidc.NewProvider(ctx, "https://dev-fleetmgmt.eu.auth0.com/")
+	provider, err := oidc.NewProvider(ctx, a.issuer)
 	if err != nil {
 		println(err)
 		return false
 	}
 
-	verifier := provider.Verifier(&oidc.Config{ClientID: "Fleet Management - Local"})
+	verifier := provider.Verifier(&oidc.Config{ClientID: a.clientID})
 
 	authHeader := r.Header.Get("Authorization")
 	authInfo := strings.Split(authHeader, " ")
