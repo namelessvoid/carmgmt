@@ -1,0 +1,13 @@
+service: default
+runtime: nodejs12
+
+default_expiration: "5s"
+
+handlers:
+- url: /(.*\.(css|eot|gz|html|ico|js|map|png|svg|ttf|woff|woff2))
+  static_files: public/\1
+  upload: public/(.*\.(css|eot|gz|html|ico|js|map|png|svg|ttf|woff|woff2))
+  
+- url: /.*
+  static_files: public/index.html
+  upload: public/index.html

@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { navigate } from 'svelte-routing';
+import config from './config'
 
 const user = {
     token: null,
@@ -11,9 +11,9 @@ export const isAuthenticated = writable(false);
 export async function init() {
     if(!auth0) {
         auth0 = await createAuth0Client({
-            domain: "dev-fleetmgmt.eu.auth0.com",
-            client_id: "GAt51deyHixXHSIEA0DAmxQHJj3tcYxa",
-            audience: "Fleet Management - Local"
+            domain: config.domain,
+            client_id: config.clientId,
+            audience: config.audience
         });
     }
 }
@@ -29,14 +29,12 @@ export async function login() {
     }
 
     await auth0.loginWithRedirect({
-        redirect_uri: "http://localhost:5000/"
+        redirect_uri: config.loginRedirectUrl
     });
 }
 
 export async function logout() {
-    auth0.logout({
-        returnTo: "http://localhost:5000/"
-    });
+    auth0.logout();
     alert("You've been logged out");
 }
 
