@@ -1,4 +1,4 @@
-export default config = {
+let config = {
     domain: "dev-fleetmgmt.eu.auth0.com",
     clientId: "GAt51deyHixXHSIEA0DAmxQHJj3tcYxa",
     audience: "Fleet Management - Local",
