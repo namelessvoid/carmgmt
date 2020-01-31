@@ -16,7 +16,7 @@ jobs:
     - name: Create prod auth config
       working-directory: frontend
       run: |
-        echo "${{ secrets.PROD_FE_AUTH_CONFIG }}" > auth_config.json
+        echo '${{ secrets.PROD_FE_AUTH_CONFIG }}' > auth_config.json
     - name: yarn install, build, and unittest
       working-directory: frontend
       run: |
