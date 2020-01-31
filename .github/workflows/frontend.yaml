@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    name: Build
+    name: Build and Deploy
     runs-on: ubuntu-latest
 
     steps:
@@ -13,10 +13,22 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
-    - name: yarn install, build, and test
+    - name: yarn install, build, and unittest
       working-directory: frontend
       run: |
         yarn install
         yarn build
-        yarn test
+        yarn test:unit
+    - name: Setup gcloud environment
+      uses: GoogleCloudPlatform/github-actions@0.1.1
+      with:
+        version: '270.0.0'
+        service_account_email: ${{ secrets.GC_SERVICE_ACCOUNT_EMAIL }}
+        service_account_key: ${{ secrets.GC_SERVICE_ACCOUNT_KEY }}
+    - name: Deploy to AppEngine
+      working-directory: frontend
+      run: |
+        gcloud app deploy
+      
+
 
