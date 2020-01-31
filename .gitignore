@@ -19,3 +19,6 @@ server
 
 # Data stored in local dev environment
 .local_test_env/
+
+# secrets
+.secrets
