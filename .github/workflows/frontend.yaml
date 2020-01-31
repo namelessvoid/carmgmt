@@ -32,6 +32,7 @@ jobs:
     - name: Deploy to AppEngine
       working-directory: frontend
       run: |
+        gcloud config set project ${{ secrets.GC_PROJECT_ID }}
         gcloud app deploy
       
 
