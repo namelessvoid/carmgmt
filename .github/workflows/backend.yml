@@ -53,4 +53,5 @@ jobs:
       run: |
         gcloud config set project ${{ secrets.GC_PROJECT_ID }}
         gcloud components install app-engine-go
+        awk -v r="$(cat ../.secrets/PROD_BE_ENV)"  '{gsub(/PROD_BE_ENV/,r)}1' app.yaml > app.yaml
         gcloud app deploy
