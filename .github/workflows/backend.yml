@@ -2,7 +2,7 @@ name: Backend
 on: [push]
 jobs:
   build:
-    name: Build
+    name: Build and Deploy
     runs-on: ubuntu-latest
     steps:
 
@@ -40,3 +40,16 @@ jobs:
     - name: Unit Test
       working-directory: backend
       run: go test -v -test.short ./...
+
+    - name: Setup gcloud environment
+      uses: GoogleCloudPlatform/github-actions@0.1.1
+      with:
+        version: '270.0.0'
+        service_account_email: ${{ secrets.GC_SERVICE_ACCOUNT_EMAIL }}
+        service_account_key: ${{ secrets.GC_SERVICE_ACCOUNT_KEY }}
+
+    - name: Deploy to AppEngine
+      working-directory: backend
+      run: |
+        gcloud config set project ${{ secrets.GC_PROJECT_ID }}
+        gcloud app deploy
