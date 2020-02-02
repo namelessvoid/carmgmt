@@ -52,4 +52,5 @@ jobs:
       working-directory: backend
       run: |
         gcloud config set project ${{ secrets.GC_PROJECT_ID }}
+        gcloud components install app-engine-go
         gcloud app deploy
