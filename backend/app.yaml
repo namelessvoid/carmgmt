@@ -2,3 +2,4 @@ service: backend
 
 runtime: go113
 main: cmd/server
+env_variables: PROD_BE_ENV
