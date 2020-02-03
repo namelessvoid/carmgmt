@@ -3,7 +3,7 @@ name: Frontend
 on:
   push:
     paths:
-    - "frontend"
+    - "frontend/**"
     - ".github/workflows/frontend.yaml"
 
 jobs:
