@@ -3,7 +3,9 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"os"
 	"time"
 
 	"cloud.google.com/go/datastore"
@@ -48,6 +50,10 @@ func createLogger() (*zap.Logger, error) {
 }
 
 func main() {
+	for _, pair := range os.Environ() {
+		fmt.Println(pair)
+	}
+
 	ctx := context.Background()
 
 	logger, err := createLogger()
