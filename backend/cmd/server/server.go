@@ -18,10 +18,6 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-const (
-	hostname = ":8080"
-)
-
 func createLogger() (*zap.Logger, error) {
 	rawJSON := []byte(`{
 		"level": "debug",
@@ -78,6 +74,6 @@ func main() {
 
 	api.ConfigureRoutes(r, vehicleService, logger)
 
-	logger.Info("Running server on " + hostname)
-	logger.Fatal(http.ListenAndServe(hostname, api.CORSMiddleware()(r)).Error())
+	logger.Info("Running server on " + config.Port)
+	logger.Fatal(http.ListenAndServe(":"+config.Port, api.CORSMiddleware()(r)).Error())
 }

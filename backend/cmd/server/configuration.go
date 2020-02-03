@@ -12,6 +12,7 @@ const (
 
 type Configuration struct {
 	Auth AuthConfiguration
+	Port string
 }
 
 func GetConfigFromEnvironment() (Configuration, error) {
@@ -20,7 +21,13 @@ func GetConfigFromEnvironment() (Configuration, error) {
 		return Configuration{}, err
 	}
 
-	config := Configuration{Auth: authConfig}
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	config := Configuration{Auth: authConfig, Port: port}
+
 	return config, nil
 }
 
