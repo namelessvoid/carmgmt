@@ -66,14 +66,12 @@ func main() {
 	vehicleRepository := domain.NewVehicleRepository()
 	vehicleService := domain.NewVehicleService(vehicleRepository, logger)
 
-	authenticator := auth.NewAuthenticator(config.Auth.Issuer, config.Auth.ClientID)
-
 	r := mux.NewRouter()
 	mux.CORSMethodMiddleware(r)
-	r.Use(auth.AuthenticationMiddleware(authenticator))
+	jwtMiddleware := auth.AuthenticationMiddleware("https://dev-fleetmgmt.eu.auth0.com/", "Fleet Management - Local")
 
 	api.ConfigureRoutes(r, vehicleService, logger)
 
 	logger.Info("Running server on " + config.Port)
-	logger.Fatal(http.ListenAndServe(":"+config.Port, api.CORSMiddleware()(r)).Error())
+	logger.Fatal(http.ListenAndServe(":"+config.Port, api.CORSMiddleware()(jwtMiddleware.Handler(r))).Error())
 }

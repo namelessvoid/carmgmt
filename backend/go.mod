@@ -4,7 +4,9 @@ go 1.13
 
 require (
 	cloud.google.com/go v0.40.0
+	github.com/auth0/go-jwt-middleware v0.0.0-20190805220309-36081240882b
 	github.com/coreos/go-oidc v2.1.0+incompatible
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/golang/mock v1.3.1-0.20190508161146-9fa652df1129
 	github.com/google/btree v1.0.0 // indirect
 	github.com/google/pprof v0.0.0-20190515194954-54271f7e092f // indirect
